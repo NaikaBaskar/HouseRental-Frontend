@@ -90,14 +90,6 @@ class TenantLogin extends React.Component {
               
               // localStorage.setItem('name',this.state.name);
               localStorage.setItem('role',"tenant");
-              // console.log(res);
-              // if(res.subscriber.role==='admin')
-              //   this.props.history.push ('/users');
-              // else  
-              // {
-              //   localStorage.setItem('subscriber',JSON.stringify(res.subscriber))
-              //   this.props.history.push('/user')
-              // }
               alert("login successful")
               // console.log(localStorage.getItem("user"))
               this.props.history.push(`/house/getHouses`)
@@ -183,118 +175,7 @@ class TenantLogin extends React.Component {
             <h5><u>Forgot Password</u>?</h5>
           </div>
         </div>
-        {/* :<div>{this.state.stage=="stage1"?<div  className="p-3">
-        <FormGroup className="form-inline ">
-            <FormLabel>Mobile</FormLabel>
-            <FormControl
-              type="text"
-              name="mobile"
-              placeholder="Mobile"
-              onChange={this.handleChange}
-              value={this.state.mobile}
-              className="input1 col-xl-8 "
-            />
-          </FormGroup >
-            <button className="btn btn-success m-3" onClick={()=>{
-              fetch(`${API_URL}v1/otp/send-otp/${this.state.mobile}`,{
-                 method:"POST",
-                 headers:{
-                    "Content-Type":"application/json"
-                 }
-              }).then(res=>res.json())
-              .then(res=>{
-                console.log(res)
-              this.setState({
-                requestId:res.request_id
-              })})
-              .catch(err=>console.log(err))
-              this.setState({
-                stage:"stage2"
-              })
-            }}>send OTP</button>
-        </div>:this.state.stage=="stage2"?<div  className="p-3">
-          <FormGroup className="form-inline ">
-              <FormLabel>Enter OTP</FormLabel>
-              <FormControl
-                type="text"
-                name="otp"
-                placeholder="Enter OTP"
-                onChange={this.handleChange}
-                value={this.state.otp}
-                className="input1 col-xl-8 "
-              />
-            </FormGroup >
-              <button className="btn btn-success m-3" onClick={()=>{
-                console.log(this.state.requestId)
-                 fetch(`${API_URL}v1/otp/verify-otp/${this.state.otp}`,{
-                  method:"POST",
-                  headers:{
-                     "Content-Type":"application/json"
-                  },
-                  body : JSON.stringify({
-                    requestId:this.state.requestId
-                  }),
-               }).then(res=>res.json())
-               .then(res=>{
-                 console.log(res)})
-               .catch(err=>console.log(err))
-                this.setState({
-                  stage:"stage3"
-                })
-              }}>Verify OTP</button>
-        </div>:this.state.stage=="stage3"?<div  className="p-3">
-        <FormGroup className="form-inline ">
-              <FormLabel>Enter new password</FormLabel>
-              <FormControl
-                type="text"
-                name="newpassword"
-                placeholder="Enter new password"
-                onChange={this.handleChange}
-                value={this.state.newpassword}
-                className="input1 col-xl-8 "
-              />
-            </FormGroup >
-            <FormGroup className="form-inline ">
-              <FormLabel>Confirm Password</FormLabel>
-              <FormControl
-                type="text"
-                name="repassword"
-                placeholder="Enter password again"
-                onChange={this.handleChange}
-                value={this.state.repassword}
-                className="input1 col-xl-8 "
-              />
-            </FormGroup >
-            <button className="btn btn-success m-3" onClick={()=>{
-                fetch(`${API_URL}v1/reset-password/${this.state.mobile}`,{
-                  method:"POST",
-                  headers:{
-                    "Content-Type":"application/json",
-                  },
-                  body : JSON.stringify ({
-                    password:this.state.newpassword,
-                    reEnterPassword:this.state.repassword
-                  }),
-                }).then(res=>res.json())
-                .then(res => console.log(res))
-                .catch(err => console.log(err))
-                this.setState({
-                  stage:"stage4"
-                })
-              }}>Reset Password</button>
-        </div>:this.state.stage=="stage4"?<div className="p-3">
-          <h5 className="text-center text-success"> Password reset successfully!</h5>
-          <button className="btn btn-success" onClick={()=>{
-            this.setState({
-              stage:"stage0"
-            })
-          }}>Login</button>
-        </div>:null}</div>} */}
-
       </div>
-        {/* <div className="text-center m-2">
-          <button className="btn btn-primary" onClick={()=>this.props.history.push('/')}>Back</button>
-        </div> */}
       </div>
     );
     }

@@ -77,14 +77,8 @@ handleSubmit = () =>{
       })
         .then (res => res.json ())
         .then (res => {
-          // let token = res.tokens.access.token;
-          // localStorage.setItem ('token', 'Bearer ' + token);
-          // alert("login successful")
-          //   this.props.history.push('/house/getHouses'
           if (res.code === 200) {
             console.log(res.code)
-            // localStorage.setItem('mobile',this.state.mobile);
-            // const t=findOwner;
             alert("login successful")
             fetch (`https://house-rental-backend.herokuapp.com/owner/getOwnerByMobile/${this.state.mobile}`, {
               method: 'GET',

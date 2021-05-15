@@ -93,12 +93,6 @@ handleSubmit = () =>{
         'Fields Cannot be Empty';
       document.getElementById ('register').style.visibility='visible';
     }
-    // if(this.state.method=="POST" && this.state.password.trim()=='')
-    // {
-    //   document.getElementById ('register').innerHTML =
-    //     'Fields Cannot be Empty';
-    //   document.getElementById ('register').style.visibility='visible';
-    // }
     else if(!regexMobile.test(this.state.user.mobile))
     {
       document.getElementById('register').innerHTML="Mobile number is invalid";
@@ -119,16 +113,6 @@ handleSubmit = () =>{
       document.getElementById('register').innerHTML="Aadhar Number is Invalid";
       document.getElementById ('register').style.visibility='visible';
     }
-    // else if(!regexPin.test(this.state.user.pin))
-    // {
-    //   document.getElementById('register').innerHTML="Pin Code is Invalid";
-    //   document.getElementById ('register').style.visibility='visible';
-    // }
-    // else if(this.state.method=="POST" && !regexPassword.test(this.state.password))
-    // {
-    //   document.getElementById ('register').innerHTML = 'Password must contain atleast a letter and number of length 8';   
-    //   document.getElementById ('register').style.visibility='visible';
-    // }
     else {
         document.getElementById('register').style.visibility='hidden'
        {localStorage.getItem("method")=="POST" ?
@@ -318,7 +302,7 @@ handleSubmit = () =>{
             placeholder="Aadhar Number"
             onChange={this.handleChange}
             value={this.state.user.aadhar}
-            disabled={localStorage.getItem("method")?true:false}
+            disabled={localStorage.getItem("method")=="PATCH"?true:false}
             className="input ml-3"
             required
           />

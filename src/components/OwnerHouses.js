@@ -4,21 +4,17 @@ import {withRouter} from 'react-router-dom'
 import {
   Container
 } from 'react-bootstrap';
-import FileSaver from 'file-saver'
-// import fs from 'fs'
-// import  PDFDocument from 'pdfkit';
 import '../docs/css/views.css'
 import SideNavbar from './SideNavbar';
 import TenantNavbar from './TenantNavbar';
 import Loadingbar from './Loadingbar';
-
-// import { link } from 'pdfkit/js/mixins/annotations';
 class ViewHouses extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
       houses: [],
-      loading:false
+      loading:false,
+      deleting:false
     };
   }
   componentDidMount () {
@@ -29,6 +25,9 @@ class ViewHouses extends React.Component {
   }
 
   fetchAllHouses = () => {
+    this.setState({
+      loading:true
+    })
     let res=JSON.parse(localStorage.getItem("user"))
     // console.log(res.ownerId)
     fetch (`https://house-rental-backend.herokuapp.com/house/getHousesByOwner/${res.ownerId}`, {
@@ -40,12 +39,20 @@ class ViewHouses extends React.Component {
         console.log ('result', data);
         this.setState ({
           houses: data.data,
-          loading:false
+          loading:false,
+          deleting:false
         });
       })
-      .catch (error => console.log ('error', error));
+      .catch (error => {
+        this.setState ({
+          loading:false
+        });
+        console.log ('error', error)});
   };
   deleteHouse = (id) =>{
+    this.setState({
+      deleting:true
+    })
     fetch (`https://house-rental-backend.herokuapp.com/house/deleteHouse/${id}`, {
       method: 'DELETE',
     })
@@ -53,28 +60,34 @@ class ViewHouses extends React.Component {
         console.log("Deleted")
         this.fetchAllHouses()
       })
-      .catch (error => console.log ('error', error));
-  }
-  downloadPdf =(file) =>{
-      // FileSaver.saveAs()
-      // let pdfDoc = new PDFDocument;
-      // pdfDoc.pipe(fs.createWriteStream('Document.pdf'));
-      // pdfDoc.text(file);
-      // pdfDoc.end();
-      var FileSaver = require('file-saver');
-      var blob = new Blob([file], {type: "text/plain;charset=utf-8"});
-      FileSaver.saveAs(blob, "hello.pdf");
-      console.log("Downloading")
+      .catch (error =>{
+        this.setState({
+          deleting:false
+        })
+          console.log ('error', error)});
   }
   render () {
-  if(this.state.loading)
+  if(this.state.loading || this.state.deleting)
   {
-    return(
-      <div>
-        <Loadingbar/>
-      </div>
-
-    )
+    if(this.state.loading)
+    {
+      return(
+        <div>
+          <Loadingbar text="Loading Your Houses.."/>
+        </div>
+  
+      )
+    }
+    else
+    {
+      return(
+        <div>
+          <Loadingbar text="Deleting House..."/>
+        </div>
+  
+      )
+    }
+    
   }
   else
   { 
@@ -83,7 +96,7 @@ class ViewHouses extends React.Component {
             return (
             <div >
             <SideNavbar/>
-            <Container className="main">
+            <Container className="main" style={{marginTop:"50px"}}>
                 <h1>Houses List</h1>
                         { this.state.houses.map ((house,index) => { 
                         

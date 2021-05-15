@@ -28,18 +28,6 @@ class Profile extends Component {
                 {localStorage.getItem("role")=="owner" ? 
                 <SideNavbar/> : <TenantNavbar/> }
             <div className="center" style={{marginLeft:"20%",marginRight:"20%", alignItems:"center",justifyContent:"center", border:"3px solid black"}}>
-                 
-                {/* <Card style={{ width: '18rem' }}>
-                <Card.Img variant="top" src="holder.js/100px180" />
-                <Card.Body>
-                    <Card.Title>Card Title</Card.Title>
-                    <Card.Text>
-                    Some quick example text to build on the card title and make up the bulk of
-                    the card's content.
-                    </Card.Text>
-                    <Button variant="primary">Go somewhere</Button>
-                </Card.Body>
-                </Card> */}
                 <Image src={profilepic} style={{width:"350px",height:"250px"}} alt="Loading"></Image>
                 <p><b>ID:</b>{this.state.role=="owner" ? this.state.user.ownerId : this.state.user.tenantId}</p>
                 <p><b>Name:</b>{this.state.user.name}</p>

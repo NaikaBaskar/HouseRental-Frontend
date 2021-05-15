@@ -2,20 +2,17 @@ import React from 'react';
 import { Container } from 'react-bootstrap';
 import Image from 'react-bootstrap/Image'
 import {withRouter} from 'react-router-dom'
-import FileSaver from 'file-saver'
-// import fs from 'fs'
-// import  PDFDocument from 'pdfkit';
 import '../docs/css/views.css'
 import SideNavbar from './SideNavbar';
-import TenantNavbar from './TenantNavbar';
 import Loadingbar from './Loadingbar';
-// import { link } from 'pdfkit/js/mixins/annotations';
 class ViewHouses extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
       houses: [],
-      loading:false
+      loading:false,
+      cncl:false,
+      cnfrm:false
     };
   }
   componentDidMount () {
@@ -37,12 +34,17 @@ class ViewHouses extends React.Component {
         console.log ('result', data);
         this.setState ({
           houses: data.data,
-          loading:false
+          loading:false,
+          cncl:false,
+          cnfrm:false
         });
       })
       .catch (error => console.log ('error', error));
   }
   cancel = (hid) => {
+    this.setState({
+      cncl:true
+    })
     fetch (`https://house-rental-backend.herokuapp.com/housesOwned/deleteHouseOwned/${hid}`, {
       method: 'DELETE',
     })
@@ -50,10 +52,17 @@ class ViewHouses extends React.Component {
         console.log("Deleted")
         this.fetchAllHouses()
       })
-      .catch (error => console.log ('error', error));
+      .catch (error => {
+        this.setState({
+          cncl:false
+        })
+        console.log ('error', error)});
 
   }
   update = (hid,oid,tid) => {
+    this.setState({
+      cnfrm:true
+    })
     fetch (`https://house-rental-backend.herokuapp.com/housesOwned/updateHouseOwned/${hid}`, {
       method: 'PUT',
       headers: {
@@ -73,28 +82,37 @@ class ViewHouses extends React.Component {
           document.getElementById ('register').innerHTML ="All Fields are Mandatory"
           console.log("Error in Confirming");
         }
+        this.fetchAllHouses();
       })
       .catch (err => {
+        this.setState({
+          cnfrm:false
+        })
         console.log (err);
       });
   }
-  downloadPdf =(file) =>{
-      // FileSaver.saveAs()
-      // let pdfDoc = new PDFDocument;
-      // pdfDoc.pipe(fs.createWriteStream('Document.pdf'));
-      // pdfDoc.text(file);
-      // pdfDoc.end();
-      var FileSaver = require('file-saver');
-      var blob = new Blob([file], {type: "text/plain;charset=utf-8"});
-      FileSaver.saveAs(blob, "hello.pdf");
-      console.log("Downloading")
-  }
   render () {
-    if(this.state.loading)
+    if(this.state.loading || this.state.cnfrm || this.state.cncl)
     {
-      return(
-      <Loadingbar/>
-      )
+      if(this.state.loading)
+      {
+        return(
+          <Loadingbar text="Loading Request..."/>
+          )
+      }
+      else if(this.state.cnfrm)
+      {
+        return(
+          <Loadingbar text="Confirming Request..."/>
+          )
+      }
+      else
+      {
+        return(
+          <Loadingbar text="Cancelling Request..."/>
+          )
+      }
+      
     }
     else
     {

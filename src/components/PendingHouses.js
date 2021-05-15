@@ -3,19 +3,17 @@ import { Container } from 'react-bootstrap';
 import Image from 'react-bootstrap/Image'
 import {withRouter} from 'react-router-dom'
 import FileSaver from 'file-saver'
-// import fs from 'fs'
-// import  PDFDocument from 'pdfkit';
 import '../docs/css/views.css'
 import SideNavbar from './SideNavbar';
 import Loadingbar from './Loadingbar';
 import TenantNavbar from './TenantNavbar';
-// import { link } from 'pdfkit/js/mixins/annotations';
 class PendingHouses extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
       houses: [],
-      loading:false
+      loading:false,
+      cncl:false
     };
   }
   componentDidMount () {
@@ -37,12 +35,16 @@ class PendingHouses extends React.Component {
         console.log ('result', data);
         this.setState ({
           houses: data.data,
-          loading:false
+          loading:false,
+          cncl:false
         });
       })
       .catch (error => console.log ('error', error));
   };
   cancel = (hid) => {
+    this.setState({
+      cncl:true
+    })
     fetch (`https://house-rental-backend.herokuapp.com/housesOwned/deleteHouseOwned/${hid}`, {
       method: 'DELETE',
     })
@@ -50,28 +52,33 @@ class PendingHouses extends React.Component {
         console.log("Deleted")
         this.fetchAllHouses()
       })
-      .catch (error => console.log ('error', error));
+      .catch (error => {
+        this.setState({
+          cncl:false
+        })
+        console.log ('error', error)});
 
   }
-  downloadPdf =(file) =>{
-      // FileSaver.saveAs()
-      // let pdfDoc = new PDFDocument;
-      // pdfDoc.pipe(fs.createWriteStream('Document.pdf'));
-      // pdfDoc.text(file);
-      // pdfDoc.end();
-      var FileSaver = require('file-saver');
-      var blob = new Blob([file], {type: "text/plain;charset=utf-8"});
-      FileSaver.saveAs(blob, "hello.pdf");
-      console.log("Downloading")
-  }
   render () {
-    if(this.state.loading)
+    if(this.state.loading || this.state.cncl)
     {
-      return(
-        <div>
-          <Loadingbar/>
-        </div>
-      )
+      if(this.state.loading)
+      {
+        return(
+          <div>
+            <Loadingbar text="Loading Pending Houses..."/>
+          </div>
+        )
+      }
+      else
+      {
+        return(
+          <div>
+            <Loadingbar text="Cancelling Request..."/>
+          </div>
+        )
+      }
+     
     }
     else
     {
@@ -98,7 +105,7 @@ class PendingHouses extends React.Component {
                                 <p><b>Village:</b>{house.village}</p>
                                 <p><b>District:</b>{house.district}</p>
                                 <p><b>Pin:</b>{house.pin}</p>
-                                <p><b>Document:</b>Download</p>
+                                <p><b>Document:</b><a href={"data:application/pdf;base64,"+house.houseDocument} download="file.pdf">Download</a></p>
                                 <div style={{display:'flex',justifyContent:'center'}}>
                                     <button onClick={() =>{
                                     if(window.confirm('Are you sure You want to cancel Request ?'))

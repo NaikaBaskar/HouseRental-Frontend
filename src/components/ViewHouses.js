@@ -2,20 +2,22 @@ import React from 'react';
 import { Container } from 'react-bootstrap';
 import Image from 'react-bootstrap/Image'
 import {withRouter} from 'react-router-dom'
+import SearchField from "react-search-field";
 import FileSaver from 'file-saver'
-// import fs from 'fs'
-// import  PDFDocument from 'pdfkit';
 import '../docs/css/views.css'
 import SideNavbar from './SideNavbar';
 import TenantNavbar from './TenantNavbar';
 import Loadingbar from './Loadingbar';
-// import { link } from 'pdfkit/js/mixins/annotations';
 class ViewHouses extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
       houses: [],
-      loading:false
+      loading:false,
+      searchBy:'village',
+      searchText:'',
+      temphouses:[],
+      request:false
     };
   }
   componentDidMount () {
@@ -36,12 +38,17 @@ class ViewHouses extends React.Component {
         console.log ('result', data);
         this.setState ({
           houses: data.data,
-          loading:false
+          temphouses:data.data,
+          loading:false,
+          request:false
         });
       })
       .catch (error => console.log ('error', error));
   };
   sendRequest =  (hid,oid) =>{
+    this.setState({
+      request:true
+    })
     let t=JSON.parse(localStorage.getItem("user"))
     let tid=t.tenantId
     fetch (`https://house-rental-backend.herokuapp.com/housesOwned/add`, {
@@ -64,44 +71,103 @@ class ViewHouses extends React.Component {
           this.fetchAllHouses()
           // this.props.history.push("#")
         } else if (res.code === 400) {
+          this.setState({
+            request:true
+          })
           document.getElementById ('register').innerHTML ="All Fields are Mandatory"
           //   'Mobile already taken';
           console.log("Error in Sending Request");
         }
       })
       .catch (err => {
+        this.setState({
+          request:true
+        })
         console.log (err);
       })
   }
-  downloadPdf =(file) =>{
-      // FileSaver.saveAs()
-      // let pdfDoc = new PDFDocument;
-      // pdfDoc.pipe(fs.createWriteStream('Document.pdf'));
-      // pdfDoc.text(file);
-      // pdfDoc.end();
-      var FileSaver = require('file-saver');
-      var blob = new Blob([file], {type: "text/plain;charset=utf-8"});
-      FileSaver.saveAs(blob, "hello.pdf");
-      console.log("Downloading")
-  }
+  handleChange = evt => {
+    this.setState ({
+      [evt.target.name]: evt.target.value,
+    },()=>{
+      var text=document.getElementById('searchText').value;
+      this.setState({
+        ...this.state,
+        temphouses:this.filterSearch(text)
+      })
+    })
+  };
+filterSearch = (text)=>
+{
+  return this.state.houses.filter((house,index)=>{
+    return house[this.state.searchBy].toLowerCase().includes(text);
+  })
+}
+handleSearch = (event)=>
+{
+  // console.log(event.target.value);
+  var text=event.target.value.toLowerCase();
+  this.setState({
+    ...this.state,
+    temphouses:this.filterSearch(text)
+  })
+}
   render () {
-    if(this.state.loading)
+    if(this.state.loading || this.state.request)
     {
-      return(
-        <Loadingbar text="Loading Houses"/>
-      )
+      if(this.state.loading)
+      {
+        return(
+          <Loadingbar text="Loading Houses"/>
+        )
+      }
+      else
+      {
+        return(
+          <Loadingbar text="Sending Request"/>
+        )
+      }
     }
     else
     {
-      if(this.state.houses.length!==0)
+      if(this.state.temphouses.length!==0)
       {
         return (
           <div >
-          {/* <SideNavbar/> */}
           <TenantNavbar />
-          <Container className="main text-center">
+          <div className="float-right row mr-2">
+          
+            <select className="mt-3  mr-2" name="searchBy" onChange={(event)=>this.handleChange(event)}>
+              <option value="village">Village</option>
+              <option value="district">District</option>
+              <option value="type">Type</option>
+            </select>
+            <div>
+              <input className=" mt-3  mr-2 " name="searchText" id="searchText" 
+                placeholder="search By selected col"
+              onChange={(event)=>this.handleSearch(event)}></input>
+            </div>
+        </div>
+
+          {/* <div className="searchdiv">
+            <div className="search" name="searchBy" onChange={(event)=>this.handleDropdown(event)}>
+            <select value="none" className="dropdown" name>
+            <option value="village">Village</option>
+            <option value="district">District</option>
+            <option value="ownerId">OwnerId</option>
+            <option value="type">Type</option>
+          </select>
+            <SearchField
+                name="searchText" 
+                id="searchText" 
+                placeholder="search By selected col"
+                onChange={(event)=>this.handleSearch(event)}
+            />
+            </div>
+          </div> */}
+          <Container className="main text-center" style={{marginTop:"40px"}}>
               <h1>Houses List</h1>
-                    { this.state.houses.map ((house,index) => { 
+                    { this.state.temphouses.map ((house,index) => { 
                       
                       // document.body.appendChild(link)
                         return (
@@ -117,7 +183,14 @@ class ViewHouses extends React.Component {
                               <p><b>Village:</b>{house.village}</p>
                               <p><b>District:</b>{house.district}</p>
                               <p><b>Pin:</b>{house.pin}</p>
-                              <p><b>Document:</b>Download</p>
+                              {/* <p >
+                                onClick={() => {
+                                FileOutputStream f = new FileOutputStream("Downloads/hello.pdf");
+                                f.write(Base64.decode(file, Base64.NO_WRAP));
+                                f.close();
+                              }}>
+                              <b>Document:</b> Download</p> */}
+                              <p><b>Document:</b><a href={"data:application/pdf;base64,"+house.houseDocument} download="file.pdf">Download</a></p>
                               <div style={{display:'flex',justifyContent:'center'}}>
                                     <button onClick={() => {
                                       this.sendRequest(house.houseId,house.ownerId,)}}>Request</button>
@@ -139,6 +212,19 @@ class ViewHouses extends React.Component {
          return(
            <div>
              <TenantNavbar />
+             <div className="float-right row mr-2">
+          
+              <select className="mt-3  mr-2" name="searchBy" onChange={(event)=>this.handleChange(event)}>
+                <option value="village">Village</option>
+                <option value="district">District</option>
+                <option value="type">Type</option>
+              </select>
+              <div>
+                <input className=" mt-3  mr-2 " name="searchText" id="searchText" 
+                  placeholder="search By selected col"
+                onChange={(event)=>this.handleSearch(event)}></input>
+              </div>
+            </div>
              <h1>No Houses</h1>
            </div>
          )

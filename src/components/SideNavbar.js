@@ -5,6 +5,7 @@ import { AiFillHome, AiOutlineClose} from "react-icons/ai";
 import {RiLogoutCircleRLine} from "react-icons/ri"
 import {CgProfile} from "react-icons/cg"
 import {GiFamilyHouse} from 'react-icons/gi'
+import {MdAddCircle} from 'react-icons/md'
 import {FcHome} from 'react-icons/fc'
 import '../docs/css/SideNavbar.css'
 class SideNavbar extends React.Component {
@@ -41,6 +42,14 @@ class SideNavbar extends React.Component {
                     <Link to="/user/profile">
                         <CgProfile/>
                         <span>Profile</span>
+                    </Link>
+                </li>
+                <li className="nav-text" onClick={()=>{
+                    localStorage.setItem("method1","POST")
+                    this.props.history.push('/house/add')}}>
+                    <Link to="/house/add">
+                        <MdAddCircle/>
+                        <span>Add House</span>
                     </Link>
                 </li>
                 <li className="nav-text">

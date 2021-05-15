@@ -13,6 +13,7 @@ import {
   Alert,
   Table,
 } from 'react-bootstrap';
+import SideNavbar from './SideNavbar';
 
 class AddHouse extends React.Component {
   constructor (props) {
@@ -31,14 +32,12 @@ class AddHouse extends React.Component {
         pin:'',
         housePic:'',
         houseDocument:'',
-    }
+    },
+    userId:''
   };
     this.handleChange = this.handleChange.bind (this);
     this.handleImage=this.handleFile.bind(this);
   }
-  // componentDidMount() {
-  //   console.log(this.state.user)
-  //   }
   handleChange (event) {
       this.setState ({
         house: Object.assign ({}, this.state.house, {
@@ -53,7 +52,13 @@ class AddHouse extends React.Component {
       this.setState ({
         house:t
       });
-      // localStorage.removeItem("house")
+    }
+    else
+    {
+      let t=JSON.parse(localStorage.getItem("user"))
+      this.setState ({
+        userId:t.ownerId
+      });
     }
     
   }
@@ -68,65 +73,21 @@ class AddHouse extends React.Component {
 
 handleSubmit = (event) =>{
       event.preventDefault()
-//    let regexMail=/^([a-zA-Z0-9\.-]+)@([a-zA-Z0-9-]+).([a-z]{2,20})(.[a-z]{2,20})?$/;
-//     let regexPassword=/^(?=.*?[A-Za-z])(?=.*?[0-9]).{8,20}$/;
-//     let regexMobile=/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
-//     let regexAadhar=/^[2-9]{1}[0-9]{3}[0-9]{4}[0-9]{4}$/;
-//     let regexPin=/^[1-9]{1}[0-9]{2}{0, 1}[0-9]{3}$/
-    // "^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,20}$"
     if (
-      this.state.house.cost==''||
-      this.state.house.features.trim()==''||
+      this.state.house.cost=='' ||
+      this.state.house.features.trim()=='' ||
       this.state.house.description.trim()==''||
-      this.state.house.type.trim()==''||
-      this.state.house.ownerId==''||
-      this.state.house.housePic.length==0 ||
-    //   this.state.house.houseDocument.trim()==''||
-      this.state.house.hno.trim()==''||
+      this.state.house.type.trim()=='' ||
+
+      this.state.house.hno.trim()=='' ||
       this.state.house.village.trim()==''||
-      this.state.house.district.trim()==''||
+      this.state.house.district.trim()=='' ||
       this.state.house.pin==''
     ) {
       document.getElementById ('register').innerHTML =
         'Fields Cannot be Empty';
       document.getElementById ('register').style.visibility='visible';
     }
-    // if(this.state.method=="POST" && this.state.password.trim()=='')
-    // {
-    //   document.getElementById ('register').innerHTML =
-    //     'Fields Cannot be Empty';
-    //   document.getElementById ('register').style.visibility='visible';
-    // }
-    // else if(!regexMobile.test(this.state.user.mobile))
-    // {
-    //   document.getElementById('register').innerHTML="Mobile number is invalid";
-    //   document.getElementById ('register').style.visibility='visible';
-    // }
-    // else if(!regexMail.test(this.state.user.email))
-    // {
-    //   document.getElementById('register').innerHTML="Email is invalid";
-    //   document.getElementById ('register').style.visibility='visible';
-    // }
-    // else if(!regexPassword.test(this.state.user.password))
-    // {
-    //   document.getElementById('register').innerHTML=" Password must contain atleast a letter and number of length 8";
-    //   document.getElementById ('register').style.visibility='visible';
-    // }
-    // else if(!regexAadhar.test(this.state.user.aadhar))
-    // {
-    //   document.getElementById('register').innerHTML="Aadhar Number is Invalid";
-    //   document.getElementById ('register').style.visibility='visible';
-    // }
-    // else if(!regexPin.test(this.state.user.pin))
-    // {
-    //   document.getElementById('register').innerHTML="Pin Code is Invalid";
-    //   document.getElementById ('register').style.visibility='visible';
-    // }
-    // else if(this.state.method=="POST" && !regexPassword.test(this.state.password))
-    // {
-    //   document.getElementById ('register').innerHTML = 'Password must contain atleast a letter and number of length 8';   
-    //   document.getElementById ('register').style.visibility='visible';
-    // }
     else {
       document.getElementById('register').style.visibility='hidden';
       console.log("Adding")
@@ -135,7 +96,7 @@ handleSubmit = (event) =>{
       data.append('features',this.state.house.features);
       data.append('description',this.state.house.description);
       data.append('type',this.state.house.type);
-      data.append('ownerId',this.state.house.ownerId);
+      data.append('ownerId',this.state.userId);
       data.append('housePic',this.state.house.housePic);
       data.append('houseDocument',this.state.house.houseDocument);
       data.append('hno',this.state.house.hno);
@@ -190,6 +151,7 @@ handleSubmit = (event) =>{
   render () {
     return (
       <div id="backdesign">
+        <SideNavbar />
       <div className="form  bg-white">
         {localStorage.getItem("method1")=="POST"?<h1>Add House</h1>:<h1>Update House</h1>}
         {localStorage.getItem("method1")=="POST" ? null  :
@@ -277,20 +239,6 @@ handleSubmit = (event) =>{
             
           </fieldset>
           </FormGroup>
-         {localStorage.getItem("method1")=="PATCH" ? null  :
-        <FormGroup className="form-inline">
-          <FormLabel>OwnerId</FormLabel>
-          <FormControl
-            type="number"
-            name="ownerId"
-            placeholder="OwnerId"
-            onChange={this.handleChange}
-            value={this.state.house.ownerId}
-            className="input ml-3"
-            required
-          />
-        </FormGroup> 
-        }
         <FormGroup className="form-inline">
           <FormLabel>Image</FormLabel>
           <FormControl

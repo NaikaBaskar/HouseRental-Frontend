@@ -3,19 +3,17 @@ import { Container } from 'react-bootstrap';
 import Image from 'react-bootstrap/Image'
 import {withRouter} from 'react-router-dom'
 import FileSaver from 'file-saver'
-// import fs from 'fs'
-// import  PDFDocument from 'pdfkit';
 import '../docs/css/views.css'
 import SideNavbar from './SideNavbar';
 import TenantNavbar from './TenantNavbar';
 import Loadingbar from './Loadingbar';
-// import { link } from 'pdfkit/js/mixins/annotations';
 class VacantHousesOfOwner extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
       houses: [],
-      loading:false
+      loading:false,
+      delete:false
     };
   }
   componentDidMount () {
@@ -37,27 +35,50 @@ class VacantHousesOfOwner extends React.Component {
         console.log ('result', data);
         this.setState ({
           houses: data.data,
-          loading:false
+          loading:false,
+          delete:false
         });
       })
       .catch (error => console.log ('error', error));
   };
   deleteHouse = (id) =>{
+    this.setState({
+      delete:true
+    })
     fetch (`https://house-rental-backend.herokuapp.com/house/deleteHouse/${id}`, {
       method: 'DELETE',
     })
       .then (data => {
-        console.log("Deleted")
         this.fetchAllHouses()
       })
-      .catch (error => console.log ('error', error));
+      .catch (error => {
+        this.setState({
+          delete:false
+        })
+        console.log ('error', error)
+      });
   }
   render () {
-    if(this.state.loading)
+    if(this.state.loading || this.state.delete)
     {
-        return (
-            <Loadingbar />
+      if(this.state.loading)
+      {
+        return(
+          <div>
+            <Loadingbar text="Loading Vacant Houses.."/>
+          </div>
         )
+      }
+      else
+      {
+        return(
+          <div>
+            <Loadingbar text="Deleting House..."/>
+          </div>
+    
+        )
+      }
+      
     }
     else
     {
@@ -69,8 +90,6 @@ class VacantHousesOfOwner extends React.Component {
                 <Container className="main">
                     <h1>Vacant Houses List</h1>
                             { this.state.houses.map ((house,index) => { 
-                            
-                            // document.body.appendChild(link)
                                 return (
                                     <div className="housecards" id="doc">
                                     <Image className="houseImage" src={"data:image/png;base64,"+ house.housePic} width="350px" height="250px"/>
@@ -88,9 +107,6 @@ class VacantHousesOfOwner extends React.Component {
                                     <button onClick={() => {
                                   localStorage.setItem("method1","PATCH")
                                   localStorage.setItem("house",JSON.stringify(house))
-                                  // let h=JSON.parse(localStorage.getItem("house"))
-                                  // console.log(h.houseId)
-                                  // console.log(localStorage.getItem("house"))
                                   this.props.history.push('/house/add')
                                 }}>Edit</button>
                                     <button onClick={()=>{

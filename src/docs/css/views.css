@@ -119,3 +119,25 @@ body{
 h1{
     text-align: center;
 }
+
+.searchdiv{
+    /* margin-right: 10px; */
+    width:100%;
+    background-color:  #060b26;
+}
+.search{
+    float: right;
+    /* background-color: #060b26; */
+    width: auto;
+    text-align: right;
+    border: 2px solid black;
+}
+
+.dropdown{
+    height:33px;
+    /* border-color:rgba(57, 202, 28, 0.815) ; */
+    /* padding-right: 10px; */
+    /* margin-right: 5px; */
+    width: 150px;
+    border-style: none;
+}
