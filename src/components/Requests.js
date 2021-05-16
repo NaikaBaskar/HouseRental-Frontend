@@ -122,7 +122,7 @@ class ViewHouses extends React.Component {
             <div >
             <SideNavbar/>
             <Container className="main">
-                <h1>Requested Houses</h1>
+                <h1 style={{padding:"30px"}}>Requested Houses</h1>
                         { this.state.houses.map ((house,index) => { 
                         
                         // document.body.appendChild(link)
@@ -140,6 +140,10 @@ class ViewHouses extends React.Component {
                                 <p><b>Village:</b>{house.village}</p>
                                 <p><b>District:</b>{house.district}</p>
                                 <p><b>Pin:</b>{house.pin}</p>
+                                <p><b>Tenant:</b><a  onClick = {() =>{
+                                      localStorage.setItem("userId",house.tenantId)
+                                      this.props.history.push('/viewUser')
+                                    }}>View Details</a></p>
                                 <div style={{display:'flex',justifyContent:'center'}}>
                                 <button onClick={() =>{
                                   if(window.confirm('Are you sure You want to cancel Request ?'))
@@ -157,13 +161,13 @@ class ViewHouses extends React.Component {
                                   this.update(house.houseId,house.ownerId,house.tenantId)
                                 }}>Confirm</button> 
                                 </div>
-                                <div style={{display:'flex',justifyContent:'center'}}>
+                                {/* <div style={{display:'flex',justifyContent:'center'}}>
                                 <button onClick = {() =>{
                                       localStorage.setItem("userId",house.tenantId)
                                       this.props.history.push('/viewUser')
                                     }}>view Tenant</button>
                                 </div>
-                                
+                                 */}
                             </div> 
                             )}
                                 
@@ -177,7 +181,7 @@ class ViewHouses extends React.Component {
             return (
                 <div>
                       <SideNavbar/>
-                    <h1>No Requests</h1>
+                    <h1 style={{padding:"30px"}}>No Requests</h1>
                 </div>
             )
         }

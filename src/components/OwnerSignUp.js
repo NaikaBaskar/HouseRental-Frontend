@@ -13,6 +13,7 @@ import {
   Alert,
   Table,
 } from 'react-bootstrap';
+import Loadingbar from './Loadingbar';
 
 class OwnerSignUp extends React.Component {
   constructor (props) {
@@ -33,7 +34,9 @@ class OwnerSignUp extends React.Component {
         pin:'',
         method:'POST',
     },
-    ownerId:''
+    ownerId:'',
+    add:false,
+    update:false
   };
     this.handleChange = this.handleChange.bind (this);
   }
@@ -115,6 +118,13 @@ handleSubmit = () =>{
     }
     else {
         document.getElementById('register').style.visibility='hidden'
+        {localStorage.getItem("method") == "POST" ? this.setState({
+          add:true
+        }):
+        this.setState({
+          update:true
+        })
+        }
        {localStorage.getItem("method")=="POST" ?
           fetch (`https://house-rental-backend.herokuapp.com/owner/signup`, {
                       method: 'post',
@@ -136,6 +146,10 @@ handleSubmit = () =>{
                       }),
                     }).then(res =>res.json())
                       .then (res => {
+                        this.setState({
+                          add:false,
+                          update:false
+                        })
                         if (res.code === 200) {
                           console.log("Inserted")
                           document.getElementById ('register').innerHTML = 'Created';
@@ -148,6 +162,10 @@ handleSubmit = () =>{
                         }
                       })
                       .catch (err => {
+                        this.setState({
+                          add:false,
+                          update:false
+                        })
                         console.log (err);
                       })
                  :
@@ -171,6 +189,10 @@ handleSubmit = () =>{
                             }),
                           }).then(res =>res.json())
                             .then (res => {
+                              this.setState({
+                                add:false,
+                                update:false
+                              })
                               if (res.code === 200) {
                                     console.log("Updated")
                                     localStorage.setItem("user",JSON.stringify(res.data))
@@ -184,204 +206,233 @@ handleSubmit = () =>{
                               }
                             })
                             .catch (err => {
+                              this.setState({
+                                add:false,
+                                update:false
+                              })
                               console.log (err);
                             });
                           
             }
         }      
     }
-
-
   render () {
-    return (
-      <div id="backdesign">
-      <div className="form  bg-white">
-        {localStorage.getItem("method")=="POST"?<h1>Register as Owner</h1>:<h1>Update Profile</h1>}
-        {localStorage.getItem("method")=="POST" ? null:
-        <FormGroup className="form-inline">
-          <FormLabel>Id</FormLabel>
-          <FormControl
-            type="text"
-            name="id"
-            placeholder="Id"
-            // onChange={this.handleChange}
-            disabled={true}
-            value={JSON.parse(localStorage.getItem("user")).ownerId}
-            className="input col-xl-8"
-            required
-          />
-        </FormGroup> }
-        <FormGroup className="form-inline">
-          <FormLabel>Name</FormLabel>
-          <FormControl
-            type="text"
-            name="name"
-            placeholder="Name"
-            onChange={this.handleChange}
-            value={this.state.user.name}
-            className="input col-xl-8"
-            required
-          />
-        </FormGroup>
-        <FormGroup className="form-inline">
-          <FormLabel>Mobile</FormLabel>
-          <FormControl
-            type="number"
-            name="mobile"
-            placeholder="Mobile"
-            onChange={this.handleChange}
-            value={this.state.user.mobile}
-            disabled={localStorage.getItem("method")=="PATCH"?true:false}
-            className="input col-xl-8"
-            required
-          />
-        </FormGroup>
-        <FormGroup className="form-inline">
-              <FormLabel>Dob</FormLabel>
-              <FormControl
-                type="date"
-                name="dob"
-                placeholder="Dob"
-                onChange={this.handleChange}
-                value={this.state.user.dob}
-                className="input ml-3"
-                required
-              />
-          </FormGroup>
-          <FormGroup id="radio-btn" className="form-inline">
-          <FormLabel id="label1">Gender</FormLabel>
-          <fieldset id="radio" >
-          
-            <Form.Group className="input form-inline" onChange={this.handleChange}>
-            
-                <Form.Check 
-                  type="radio"
-                  label="Male"
-                  name="gender"
-                  id="male"
-                  onChange={this.handleChange}
-                  value="male"
+    if(this.state.add || this.state.update)
+    {
+      if(this.state.add)
+      {
+        return(
+          <Loadingbar text="Registering..."></Loadingbar>
+        )
+      }
+      else
+      {
+        return(
+          <Loadingbar text="Updating Your Details..."></Loadingbar>
+        )
+      }
+      
+    }
+    else
+    {
+          return (
+            <div id="backdesign">
+            <div className="form  bg-white">
+              {localStorage.getItem("method")=="POST"?<h1 style={{marginTop:"20px",marginBottom:"25px"}}>Register as Owner</h1>:<h1 style={{marginTop:"20px",marginBottom:"25px"}}>Update Profile</h1>}
+              {localStorage.getItem("method")=="POST" ? null:
+              <FormGroup className="form-inline">
+                <FormLabel>Id</FormLabel>
+                <FormControl
+                  type="text"
+                  name="id"
+                  placeholder="Id"
+                  // onChange={this.handleChange}
+                  disabled={true}
+                  value={JSON.parse(localStorage.getItem("user")).ownerId}
+                  className="input col-xl-8"
+                  required
                 />
-                <Form.Check
-                  type="radio"
-                  label="Female"
-                  name="gender"
-                  id="female"
+              </FormGroup> }
+              <FormGroup className="form-inline">
+                <FormLabel>Name</FormLabel>
+                <FormControl
+                  type="text"
+                  name="name"
+                  placeholder="Name"
                   onChange={this.handleChange}
-                  value="female"
+                  value={this.state.user.name}
+                  className="input col-xl-8"
+                  required
                 />
-                <Form.Check 
-                  type="radio"
-                  label="Other"
-                  name="gender"
-                  id="other"
+              </FormGroup>
+              <FormGroup className="form-inline">
+                <FormLabel>Mobile</FormLabel>
+                <FormControl
+                  type="number"
+                  name="mobile"
+                  placeholder="Mobile"
                   onChange={this.handleChange}
-                  value="other"
+                  value={this.state.user.mobile}
+                  onWheel={event => { 
+                    event.preventDefault(); 
+                    event.target.blur()}}
+                  disabled={localStorage.getItem("method")=="PATCH"?true:false}
+                  className="input col-xl-8"
+                  required
                 />
-            </Form.Group>
-            
-          </fieldset>
-          </FormGroup>
-        <FormGroup className="form-inline">
-          <FormLabel>Email</FormLabel>
-          <FormControl
-            type="text"
-            name="email"
-            placeholder="Email"
-            onChange={this.handleChange}
-            value={this.state.user.email}
-            className="input ml-3"
-            required
-          />
-        </FormGroup>
-        <FormGroup className="form-inline">
-          <FormLabel>Aadhar</FormLabel>
-          <FormControl
-            type="text"
-            name="aadhar"
-            placeholder="Aadhar Number"
-            onChange={this.handleChange}
-            value={this.state.user.aadhar}
-            disabled={localStorage.getItem("method")=="PATCH"?true:false}
-            className="input ml-3"
-            required
-          />
-        </FormGroup>
-        {localStorage.getItem("method")=="PATCH" ? null:
-        <FormGroup className="form-inline">
-          <FormLabel>Password</FormLabel>
-          <FormControl
-            type="password"
-            name="password"
-            value={this.state.user.password}
-            onChange={this.handleChange}
-            placeholder="Password"
-            // disabled={this.state.method=="PATCH"?true:false}
-            className="input ml-3"
-            required
-          />
-        </FormGroup> }
-        <FormGroup className="form-inline">
-          <FormLabel>Hno</FormLabel>
-          <FormControl
-            type="text"
-            name="hno"
-            value={this.state.user.hno}
-            onChange={this.handleChange}
-            placeholder="H.No"
-            // disabled={this.state.method=="PATCH"?true:false}
-            className="input ml-3"
-            required
-          />
-        </FormGroup>
-        <FormGroup className="form-inline">
-          <FormLabel>Village</FormLabel>
-          <FormControl
-            type="text"
-            name="village"
-            value={this.state.user.village}
-            onChange={this.handleChange}
-            placeholder="Village"
-            // disabled={this.state.method=="PATCH"?true:false}
-            className="input ml-3"
-            required
-          />
-        </FormGroup>
-        <FormGroup className="form-inline">
-          <FormLabel>District</FormLabel>
-          <FormControl
-            type="text"
-            name="district"
-            value={this.state.user.district}
-            onChange={this.handleChange}
-            placeholder="District"
-            // disabled={this.state.method=="PATCH"?true:false}
-            className="input ml-3"
-            required
-          />
-        </FormGroup>
-        <FormGroup className="form-inline">
-          <FormLabel>Pin</FormLabel>
-          <FormControl
-            type="number"
-            name="pin"
-            value={this.state.user.pin}
-            onChange={this.handleChange}
-            placeholder="Pin"
-            // disabled={this.state.method=="PATCH"?true:false}
-            className="input ml-3"
-            required
-          />
-        </FormGroup>
-        <p id="register" className="warning"/>
-        <button className="mb-2 btn btn-success mr-4" onClick={()=>this.props.history.goBack()}>Back</button>
-        {/* <button className="mb-2 btn btn-success ml-2">{this.state.method=="PATCH"?"Update":"Create"}</button> */}
-        {localStorage.getItem("method")=="POST" ? 
-        <button className="mb-2 btn btn-success ml-2" onClick={this.handleSubmit}>Create</button> :
-        <button className="mb-2 btn btn-success ml-2" onClick={this.handleSubmit}>Update</button> }
-      </div>
-      </div>
-    );
+              </FormGroup>
+              <FormGroup className="form-inline">
+                    <FormLabel>Dob</FormLabel>
+                    <FormControl
+                      type="date"
+                      name="dob"
+                      placeholder="Dob"
+                      onChange={this.handleChange}
+                      value={this.state.user.dob}
+                      className="input ml-3"
+                      required
+                    />
+                </FormGroup>
+                <FormGroup id="radio-btn" className="form-inline">
+                <FormLabel id="label1">Gender</FormLabel>
+                <fieldset id="radio" >
+                
+                  <Form.Group className="input form-inline" onChange={this.handleChange}>
+                  
+                      <Form.Check 
+                        type="radio"
+                        label="Male"
+                        name="gender"
+                        id="male"
+                        onChange={this.handleChange}
+                        value="Male"
+                      />
+                      <Form.Check
+                        type="radio"
+                        label="Female"
+                        name="gender"
+                        id="female"
+                        onChange={this.handleChange}
+                        value="Female"
+                      />
+                      <Form.Check 
+                        type="radio"
+                        label="Other"
+                        name="gender"
+                        id="other"
+                        onChange={this.handleChange}
+                        value="Other"
+                      />
+                  </Form.Group>
+                  
+                </fieldset>
+                </FormGroup>
+              <FormGroup className="form-inline">
+                <FormLabel>Email</FormLabel>
+                <FormControl
+                  type="text"
+                  name="email"
+                  placeholder="Email"
+                  onChange={this.handleChange}
+                  value={this.state.user.email}
+                  className="input ml-3"
+                  required
+                />
+              </FormGroup>
+              <FormGroup className="form-inline">
+                <FormLabel>Aadhar</FormLabel>
+                <FormControl
+                  type="text"
+                  name="aadhar"
+                  placeholder="Aadhar Number"
+                  onChange={this.handleChange}
+                  value={this.state.user.aadhar}
+                  onWheel={event => { 
+                    event.preventDefault(); 
+                    event.target.blur()}}
+                  disabled={localStorage.getItem("method")=="PATCH"?true:false}
+                  className="input ml-3"
+                  required
+                />
+              </FormGroup>
+              {localStorage.getItem("method")=="PATCH" ? null:
+              <FormGroup className="form-inline">
+                <FormLabel>Password</FormLabel>
+                <FormControl
+                  type="password"
+                  name="password"
+                  value={this.state.user.password}
+                  onChange={this.handleChange}
+                  placeholder="Password"
+                  // disabled={this.state.method=="PATCH"?true:false}
+                  className="input ml-3"
+                  required
+                />
+              </FormGroup> }
+              <FormGroup className="form-inline">
+                <FormLabel>Hno</FormLabel>
+                <FormControl
+                  type="text"
+                  name="hno"
+                  value={this.state.user.hno}
+                  onChange={this.handleChange}
+                  placeholder="H.No"
+                  // disabled={this.state.method=="PATCH"?true:false}
+                  className="input ml-3"
+                  required
+                />
+              </FormGroup>
+              <FormGroup className="form-inline">
+                <FormLabel>Village</FormLabel>
+                <FormControl
+                  type="text"
+                  name="village"
+                  value={this.state.user.village}
+                  onChange={this.handleChange}
+                  placeholder="Village"
+                  // disabled={this.state.method=="PATCH"?true:false}
+                  className="input ml-3"
+                  required
+                />
+              </FormGroup>
+              <FormGroup className="form-inline">
+                <FormLabel>District</FormLabel>
+                <FormControl
+                  type="text"
+                  name="district"
+                  value={this.state.user.district}
+                  onChange={this.handleChange}
+                  placeholder="District"
+                  // disabled={this.state.method=="PATCH"?true:false}
+                  className="input ml-3"
+                  required
+                />
+              </FormGroup>
+              <FormGroup className="form-inline">
+                <FormLabel>Pin</FormLabel>
+                <FormControl
+                  type="number"
+                  name="pin"
+                  value={this.state.user.pin}
+                  onChange={this.handleChange}
+                  placeholder="Pin"
+                  onWheel={event => { 
+                    event.target.blur()}}
+                  // disabled={this.state.method=="PATCH"?true:false}
+                  className="input ml-3"
+                  required
+                />
+              </FormGroup>
+              <p id="register" className="warning"/>
+              <button className="mb-2 btn btn-success mr-4" onClick={()=>this.props.history.goBack()}>Back</button>
+              {/* <button className="mb-2 btn btn-success ml-2">{this.state.method=="PATCH"?"Update":"Create"}</button> */}
+              {localStorage.getItem("method")=="POST" ? 
+              <button className="mb-2 btn btn-success ml-2" onClick={this.handleSubmit}>Create</button> :
+              <button className="mb-2 btn btn-success ml-2" onClick={this.handleSubmit}>Update</button> }
+            </div>
+            </div>
+          );
+     }
   }
 }
 

@@ -135,17 +135,18 @@ handleSearch = (event)=>
         return (
           <div >
           <TenantNavbar />
-          <div className="float-right row mr-2">
+          <div className="searchdiv">
           
-            <select className="mt-3  mr-2" name="searchBy" onChange={(event)=>this.handleChange(event)}>
+            <select className="drop" name="searchBy" onChange={(event)=>this.handleChange(event)}>
               <option value="village">Village</option>
               <option value="district">District</option>
               <option value="type">Type</option>
             </select>
             <div>
-              <input className=" mt-3  mr-2 " name="searchText" id="searchText" 
-                placeholder="search By selected col"
+              <input className="search" name="searchText" id="searchText" 
+                placeholder="search By selected field"
               onChange={(event)=>this.handleSearch(event)}></input>
+              {/* <button style={{backgroundColor:"white",height:"30px",borderStyle:"none",padding:"0px",width:"150px"}}>Search</button> */}
             </div>
         </div>
 
@@ -166,7 +167,7 @@ handleSearch = (event)=>
             </div>
           </div> */}
           <Container className="main text-center" style={{marginTop:"40px"}}>
-              <h1>Houses List</h1>
+              <h1 >Houses List</h1>
                     { this.state.temphouses.map ((house,index) => { 
                       
                       // document.body.appendChild(link)
@@ -212,20 +213,19 @@ handleSearch = (event)=>
          return(
            <div>
              <TenantNavbar />
-             <div className="float-right row mr-2">
-          
-              <select className="mt-3  mr-2" name="searchBy" onChange={(event)=>this.handleChange(event)}>
+             <div className="searchdiv">
+              <select className="drop" name="searchBy" onChange={(event)=>this.handleChange(event)}>
                 <option value="village">Village</option>
                 <option value="district">District</option>
                 <option value="type">Type</option>
               </select>
               <div>
-                <input className=" mt-3  mr-2 " name="searchText" id="searchText" 
-                  placeholder="search By selected col"
+                <input className="search" name="searchText" id="searchText" 
+                  placeholder="search By selected field"
                 onChange={(event)=>this.handleSearch(event)}></input>
               </div>
             </div>
-             <h1>No Houses</h1>
+             <h1 style={{marginTop:"40px"}}>No Houses</h1>
            </div>
          )
        }

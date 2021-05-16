@@ -152,7 +152,7 @@ handleSubmit = () =>{
       <div id="backdesign">
       <div className="form col-xl-5 col-lg-6 col-md-7 col-sm-8 col-10  bg-white">
         {/* col-xl-5 col-lg-6 col-md-7 col-sm-8 col-10 */}
-      <h1 className="m-3">Owner Login</h1>
+      <h1 className="m-3" style={{marginTop:"20px",marginBottom:"25px"}}>Owner Login</h1>
         <div>
           <FormGroup className="form-inline ">
             <FormLabel>Mobile</FormLabel>
@@ -163,6 +163,9 @@ handleSubmit = () =>{
               onChange={this.handleChange}
               value={this.state.mobile}
               className="input col-xl-8 "
+              onWheel={event => { 
+                event.preventDefault(); 
+                event.target.blur()}}
             />
           </FormGroup >
           <FormGroup className="form-inline">
@@ -186,7 +189,7 @@ handleSubmit = () =>{
           {/* <div>
             <h5>Don't Have an Account ? <u>SignUp</u></h5>
           </div> */}
-          <div>
+          <div style={{marginTop:"20px",marginBottom:"10px"}}>
             <h5><u>Forgot Password</u>?</h5>
           </div>
         </div>

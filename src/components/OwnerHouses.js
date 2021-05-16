@@ -96,7 +96,7 @@ class ViewHouses extends React.Component {
             return (
             <div >
             <SideNavbar/>
-            <Container className="main" style={{marginTop:"50px"}}>
+            <Container className="main" style={{padding:"30px"}}>
                 <h1>Houses List</h1>
                         { this.state.houses.map ((house,index) => { 
                         
@@ -149,7 +149,7 @@ class ViewHouses extends React.Component {
             return (
                 <div>
                       <SideNavbar/>
-                    <h1>No Houses</h1>
+                    <h1 style={{padding:"25px",marginTop:"10px"}}>No Houses</h1>
                 </div>
             )
         }

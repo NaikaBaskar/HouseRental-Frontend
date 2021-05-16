@@ -178,6 +178,8 @@ handleSubmit = (event) =>{
             onChange={this.handleChange}
             value={this.state.house.cost}
             className="input col-xl-8"
+            onWheel={event => { 
+              event.target.blur()}}
             required
           />
         </FormGroup>
@@ -307,6 +309,8 @@ handleSubmit = (event) =>{
             value={this.state.house.pin}
             onChange={this.handleChange}
             placeholder="Pin"
+            onWheel={event => { 
+              event.target.blur()}}
             className="input ml-3"
             required
           />

@@ -37,7 +37,7 @@ class ViewOwners extends Component {
         return (
             <div>
               <SideNavbar/>
-              <Container className="main">
+              <Container className="main1">
                 <h1>Owners List</h1>
                  {this.state.users.map (user => {
                     var d = new Date(user.dob);

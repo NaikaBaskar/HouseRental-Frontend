@@ -1,6 +1,7 @@
 // import logo from './logo.svg';
 import './App.css';
 import {HashRouter as Router,Route,Switch} from 'react-router-dom'
+import {Offline,Online} from 'react-detect-offline';
 import Home from './components/Home';
 import {Component} from 'react'
 import OwnerLogin from './components/OwnerLogin';
@@ -20,15 +21,24 @@ import VacantHousesOfOwner from './components/VacantHousesOfOwner';
 import Profile from './components/Profile';
 import PendingHouses from './components/PendingHouses';
 import ViewUser from './components/ViewUser';
-
+import nonet from './net.jpeg';
+// import {IoCloudOfflineSharp} from "react-icons/io"
+import { IoCloudOffline } from "react-icons/io5"
 
 class App extends Component {
+  constructor(props){
+    super(props)
+    this.state ={
+      check:false
+    }
+  }
   render(){
     
   return (
+   
     <Router>
       <div>
-        {/* <SideNavbar/> */}
+      <Online>
         <Switch>
           <Route exact path="/">
             <Home ></Home>
@@ -82,8 +92,18 @@ class App extends Component {
             <ViewUser />
           </Route>
         </Switch>
+        </Online>
+        <Offline>
+         <div className="nonet">
+           <IoCloudOffline className="nonetImg"/>
+          <h1>No Connection</h1>
+          <p>Make Sure You have Proper Internet Connection !!</p>
+          <button>Try again</button>
+        </div>
+      </Offline>
       </div>
     </Router>
+   
   );
   }
 }

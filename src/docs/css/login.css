@@ -99,8 +99,9 @@ button{
     width: 100px;
     display: inline-block;
   }
-  input{
+  .input{
     display: inline-block;
+    width:55%;
   }
   
   .warning{
@@ -152,6 +153,9 @@ button{
   }
   
   @media screen and (max-width:600px){
+    .form{
+      width: 95%;
+    }
     #label1{
       align-content: center;
     }
@@ -165,18 +169,30 @@ button{
       justify-content: left !important;
       display: inline-block;
     }
+    .input{
+      width:95%;
+    }
   }
-    
+  
+  
    
   
   @media screen and (max-width:1000px){
     #label1{
       align-content: center;
     }
+    .form{
+      width: 90%;
+    }
+    .input{
+      width: 60%;
+    }
     #radio-btn {
       display: flex;;
     }
   }
+
+
   
   
   
