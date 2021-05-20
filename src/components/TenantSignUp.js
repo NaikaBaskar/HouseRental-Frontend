@@ -116,6 +116,11 @@ class OwnerSignUp extends React.Component {
       document.getElementById('register').innerHTML="Aadhar Number is Invalid";
       document.getElementById ('register').style.visibility='visible';
     }
+    else if(!regexPassword.test(this.state.user.password))
+    {
+      document.getElementById('register').innerHTML="Password Should Contain characters and digit of minimum length 8";
+      document.getElementById ('register').style.visibility='visible';
+    }
     else {
           {localStorage.getItem("method") == "POST" ? this.setState({
             add:true
@@ -154,7 +159,7 @@ class OwnerSignUp extends React.Component {
                           console.log("Inserted")
                           document.getElementById ('register').innerHTML = 'Created';
                           alert('You are registered');
-                          this.props.history.push('/owner/login');
+                          this.props.history.push('/tenant/login');
                         } else if (res.code === 400) {
                           document.getElementById ('register').innerHTML ="All Fields are Mandatory"
                           //   'Mobile already taken';

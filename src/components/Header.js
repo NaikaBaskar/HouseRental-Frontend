@@ -15,7 +15,7 @@ class Header extends React.Component{
                     <br></br> <b>WE are here for you!</b></b>
                     </p>
                     <a  className="cv-btn" onClick={ ()=>{
-                        this.props.history.push(`/owner/login`)
+                        this.props.history.push(`/admin/login`)
                     }}>I'm an Owner</a>
                     <a  className="cv-btn" onClick={ ()=>{
                         this.props.history.push(`/tenant/login`)}}>I'm a Tenant</a>
