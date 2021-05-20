@@ -4,11 +4,11 @@ import Image from 'react-bootstrap/Image'
 import {withRouter} from 'react-router-dom'
 import SearchField from "react-search-field";
 import FileSaver from 'file-saver'
-import '../docs/css/views.css'
 import SideNavbar from './SideNavbar';
 import TenantNavbar from './TenantNavbar';
 import Loadingbar from './Loadingbar';
 import AdminNavbar from './AdminNavbar';
+import '../docs/css/views.css'
 class ViewHouses extends React.Component {
   constructor (props) {
     super (props);
