@@ -83,7 +83,7 @@ class ViewHouses extends React.Component {
             <div >
             <SideNavbar/>
             <Container className="main">
-                <h1 style={{padding:"30px"}}>Filled Houses</h1>
+                <h1 style={{paddingTop:"100px"}}>Filled Houses</h1>
                         { this.state.houses.map ((house,index) => { 
                         
                         // document.body.appendChild(link)
@@ -133,7 +133,7 @@ class ViewHouses extends React.Component {
             return (
                 <div>
                       <SideNavbar/>
-                    <h1 style={{marginTop:"50px"}}>No Filled Houses</h1>
+                    <h1 style={{marginTop:"100px"}}>No Filled Houses</h1>
                 </div>
             )
         }

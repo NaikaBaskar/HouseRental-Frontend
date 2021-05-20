@@ -24,6 +24,9 @@ import ViewUser from './components/ViewUser';
 import nonet from './net.jpeg';
 // import {IoCloudOfflineSharp} from "react-icons/io"
 import { IoCloudOffline } from "react-icons/io5"
+import AdminLogin from './components/AdminLogin';
+import ViewHousesOwned from './components/ViewHousesOwned';
+import About from './components/About';
 
 class App extends Component {
   constructor(props){
@@ -49,6 +52,9 @@ class App extends Component {
           <Route exact path="/user/profile">
             <Profile></Profile>
           </Route>
+          <Route exact path="/admin/login">
+            <AdminLogin></AdminLogin>
+          </Route>
            <Route exact path="/owner/signUp">
             <OwnerSignUp ></OwnerSignUp>
           </Route>
@@ -66,6 +72,9 @@ class App extends Component {
           </Route>
           <Route exact path="/house/getHouses">
             <ViewHouses></ViewHouses>
+          </Route>
+          <Route exact path="/housesOwned/getHouses">
+            <ViewHousesOwned></ViewHousesOwned>
           </Route>
           <Route exact path="/house/getHousesOfOwner">
             <OwnerHouses />
@@ -90,6 +99,9 @@ class App extends Component {
           </Route>
           <Route exact path="/viewUser">
             <ViewUser />
+          </Route>
+          <Route exact path="/about">
+            <About/>
           </Route>
         </Switch>
         </Online>

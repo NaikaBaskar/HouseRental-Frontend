@@ -1,0 +1,43 @@
+.center {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+    align-items: center;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+}
+
+
+
+.center:hover {
+    box-shadow: 0 20px 30px 0 rgba(18, 223, 121, 0.3);
+    transform: scale(1.03);
+}
+
+.img {
+    float: left;
+    height: auto;
+    width: auto;
+    margin-left: 15%;
+    margin-right: auto;
+}
+
+.lefttext {
+    font-style: italic;
+    font-weight: 600;
+    padding-right: 30px;
+}
+
+
+.Promain{
+   border:4px groove black ;
+   width:75%;
+   margin-left: -10px;
+   margin-top:110px;
+   margin-bottom: 20px;
+}
+
+/* .Probtn {
+    display: flex;
+    justify-content: center;
+} */

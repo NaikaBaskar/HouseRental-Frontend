@@ -3,18 +3,19 @@ body{
 }
 .cards{
     display: inline-block;
-    border: 2px solid black;
+    border: 2px solid rgba(61, 60, 60, 0.979);
     padding: 10px;
     margin: 3px;
     width:24%;
     justify-content: center;
+    box-shadow: 0 5px 10px rgba(61, 60, 60, 0.979);
 
 }
 .housecards{
     display: inline-block;
     border: 1px solid rgba(61, 60, 60, 0.979);
     padding: 20px;
-    margin: 3px;
+    margin: 10px;
     width:30%;
     justify-content: center;
     box-shadow: 0 5px 10px rgba(61, 60, 60, 0.979);
@@ -74,21 +75,28 @@ h1{
     display:flex;
     justify-content: right;
     background-color: #060b26;
-    /* position: sticky;
-    top: 0; */
+    position: sticky;
+    top: 60px;
+    z-index: 0;
 }
 .search{
     width:325px;
-    height: 30px;
+    height: 40px;
     margin-right: 5px;
     margin-bottom:5px;
     border-style: groove;
+    border-radius: 15px;
+    text-align: center;
+    /* box-shadow: 2px 2px 30px rgba(0,0,0,0.15); */
 }
 .drop{
     width:150px;
-    height: 30px;
+    height: 40px;
     margin-right: 5px;
     border-style: groove;
+    border-radius: 15px;
+    text-align: center;
+    /* box-shadow: 2px 2px 30px rgba(0,0,0,0.15); */
 }
 
 
@@ -152,17 +160,20 @@ h1{
 }
 @media screen and (max-width:600px){
     .search{
-        width:290px;
-        height: 30px;
+        width:200px;
+        height: 40px;
         margin-right: 5px;
         margin-bottom:5px;
         border-style: groove;
+        font-size: 12px;
+       
     }
     .drop{
-        width:130px;
-        height: 30px;
+        width:100px;
+        height: 40px;
         margin-right: 5px;
         border-style: groove;
+        font-size: 12px;
     }
 }
 @media screen and (max-width:500px){

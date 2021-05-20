@@ -39,7 +39,13 @@ class ViewHouses extends React.Component {
           cnfrm:false
         });
       })
-      .catch (error => console.log ('error', error));
+      .catch (error => {
+        this.setState ({
+          loading:false,
+          cncl:false,
+          cnfrm:false
+        });
+        console.log ('error', error)});
   }
   cancel = (hid) => {
     this.setState({
@@ -122,7 +128,7 @@ class ViewHouses extends React.Component {
             <div >
             <SideNavbar/>
             <Container className="main">
-                <h1 style={{padding:"30px"}}>Requested Houses</h1>
+                <h1 style={{paddingTop:"100px"}}>Requested Houses</h1>
                         { this.state.houses.map ((house,index) => { 
                         
                         // document.body.appendChild(link)
@@ -181,7 +187,7 @@ class ViewHouses extends React.Component {
             return (
                 <div>
                       <SideNavbar/>
-                    <h1 style={{padding:"30px"}}>No Requests</h1>
+                    <h1 style={{paddingTop:"100px"}}>No Requests</h1>
                 </div>
             )
         }

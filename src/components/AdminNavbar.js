@@ -5,9 +5,9 @@ import { AiFillHome, AiOutlineClose} from "react-icons/ai";
 import {RiLogoutCircleRLine} from "react-icons/ri"
 import {CgProfile} from "react-icons/cg"
 import {GiFamilyHouse} from 'react-icons/gi'
-import {FcHome} from 'react-icons/fc'
+import { ImUser } from "react-icons/im"
 import '../docs/css/Nav/SideNavbar.css'
-class SideNavbar extends React.Component {
+class AdminNavbar extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
@@ -37,33 +37,40 @@ class SideNavbar extends React.Component {
                         <AiOutlineClose/>
                     </Link>
                 </li>
-                <li className="nav-text" onClick={()=>{localStorage.setItem("method","PATCH")}}>
+                {/* <li className="nav-text" onClick={()=>{localStorage.setItem("method","PATCH")}}>
                     <Link to="/user/profile">
                         <CgProfile/>
                         <span>Profile</span>
+                    </Link>
+                </li> */}
+                <li className="nav-text">
+                    <Link to="/owner/getOwners">
+                        {/* <AiFillHome/> */}
+                        {/* <BiBuildingHouse/> */}
+                        <ImUser/>
+                        <span>Owners</span>
+                    </Link>
+                </li>
+                <li className="nav-text">
+                    <Link to="/tenant/getTenants">
+                        {/* <AiFillHome/> */}
+                        {/* <FcHome/> */}
+                        <ImUser/>
+                        <span>Tenants</span>
                     </Link>
                 </li>
                 <li className="nav-text">
                     <Link to="/house/getHouses">
                         {/* <AiFillHome/> */}
-                        {/* <BiBuildingHouse/> */}
                         <GiFamilyHouse/>
-                        <span>All Houses</span>
+                        <span>Vacant Houses</span>
                     </Link>
                 </li>
                 <li className="nav-text">
-                    <Link to="/house/tenant/confirmedHouses">
-                        {/* <AiFillHome/> */}
-                        {/* <FcHome/> */}
-                        <GiFamilyHouse/>
-                        <span>My Houses</span>
-                    </Link>
-                </li>
-                <li className="nav-text">
-                    <Link to="/housesOwned/pendingHouses">
+                    <Link to="/housesOwned/getHouses">
                         {/* <AiFillHome/> */}
                         <GiFamilyHouse/>
-                        <span>Pending</span>
+                        <span>Filled Houses</span>
                     </Link>
                 </li>
                 <li className="nav-text" onClick={()=>{
@@ -94,4 +101,4 @@ class SideNavbar extends React.Component {
   }
 }
 
-export default withRouter(SideNavbar);
+export default withRouter(AdminNavbar);

@@ -88,7 +88,7 @@ class PendingHouses extends React.Component {
             <div >
             <TenantNavbar/>
             <Container className="main">
-                <h1 style={{padding:"25px",marginTop:"10px"}}>Pending Houses</h1>
+                <h1 style={{padding:"25px",marginTop:"100px"}}>Pending Houses</h1>
                       { this.state.houses.map ((house,index) => { 
                         
                         // document.body.appendChild(link)
@@ -138,7 +138,7 @@ class PendingHouses extends React.Component {
         return(
           <div>
             <TenantNavbar />
-            <h1  style={{padding:"25px",marginTop:"10px"}}>No Pending Houses</h1>
+            <h1  style={{marginTop:"100px"}}>No Pending Houses</h1>
           </div>
         )
       }

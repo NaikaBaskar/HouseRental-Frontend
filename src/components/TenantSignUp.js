@@ -238,7 +238,7 @@ class OwnerSignUp extends React.Component {
         return (
           <div id="backdesign">
           <div className="form  bg-white">
-            {this.state.method=="POST"?<h1 style={{marginTop:"20px",marginBottom:"25px"}}>Register as Tenant</h1>:<h1 style={{marginTop:"20px",marginBottom:"25px"}}>Update Details</h1>}
+            {localStorage.getItem("method")==="POST"?<h1 style={{marginTop:"20px",marginBottom:"25px"}}>Register as Tenant</h1>:<h1 style={{marginTop:"20px",marginBottom:"25px"}}>Update Details</h1>}
             {localStorage.getItem("method")=="POST" ? null:
             <FormGroup className="form-inline">
               <FormLabel>Tenant Id</FormLabel>

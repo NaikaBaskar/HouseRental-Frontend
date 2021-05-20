@@ -232,10 +232,10 @@ handleSubmit = (event) =>{
                 <Form.Check 
                   type="radio"
                   label="Other"
-                  name="gender"
+                  name="type"
                   id="other"
                   onChange={this.handleChange}
-                  value="other"
+                  value="Other"
                 />
             </Form.Group>
             

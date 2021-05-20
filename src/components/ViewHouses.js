@@ -8,6 +8,7 @@ import '../docs/css/views.css'
 import SideNavbar from './SideNavbar';
 import TenantNavbar from './TenantNavbar';
 import Loadingbar from './Loadingbar';
+import AdminNavbar from './AdminNavbar';
 class ViewHouses extends React.Component {
   constructor (props) {
     super (props);
@@ -29,7 +30,7 @@ class ViewHouses extends React.Component {
   }
 
   fetchAllHouses = () => {
-    fetch (`https://house-rental-backend.herokuapp.com/house/getVacantHouses`, {
+    fetch (localStorage.getItem("role")=="admin" ? `https://house-rental-backend.herokuapp.com/house/getHouses` : `https://house-rental-backend.herokuapp.com/house/getVacantHouses`, {
       method: 'GET',
       responseType:"blob"
     })
@@ -43,7 +44,12 @@ class ViewHouses extends React.Component {
           request:false
         });
       })
-      .catch (error => console.log ('error', error));
+      .catch (error => {
+        this.setState ({
+          loading:false,
+          request:false
+        });
+        console.log ('error', error)});
   };
   sendRequest =  (hid,oid) =>{
     this.setState({
@@ -106,7 +112,7 @@ filterSearch = (text)=>
 handleSearch = (event)=>
 {
   // console.log(event.target.value);
-  var text=event.target.value.toLowerCase();
+  var text=event.target.value.toLowerCase().trim();
   this.setState({
     ...this.state,
     temphouses:this.filterSearch(text)
@@ -133,8 +139,8 @@ handleSearch = (event)=>
       if(this.state.temphouses.length!==0)
       {
         return (
-          <div >
-          <TenantNavbar />
+          <div>
+           {localStorage.getItem("role")=="admin" ? <AdminNavbar /> : <TenantNavbar/>} 
           <div className="searchdiv">
           
             <select className="drop" name="searchBy" onChange={(event)=>this.handleChange(event)}>
@@ -166,7 +172,7 @@ handleSearch = (event)=>
             />
             </div>
           </div> */}
-          <Container className="main text-center" style={{marginTop:"40px"}}>
+          <Container className="main text-center" style={{marginTop:"70px"}}>
               <h1 >Houses List</h1>
                     { this.state.temphouses.map ((house,index) => { 
                       
@@ -193,8 +199,9 @@ handleSearch = (event)=>
                               <b>Document:</b> Download</p> */}
                               <p><b>Document:</b><a href={"data:application/pdf;base64,"+house.houseDocument} download="file.pdf">Download</a></p>
                               <div style={{display:'flex',justifyContent:'center'}}>
+                                {localStorage.getItem("role")=="admin" ? null :
                                     <button onClick={() => {
-                                      this.sendRequest(house.houseId,house.ownerId,)}}>Request</button>
+                                      this.sendRequest(house.houseId,house.ownerId,)}}>Request</button> }
                                     <button onClick = {() =>{
                                       localStorage.setItem("userId",house.ownerId)
                                       this.props.history.push('/viewUser')
@@ -212,7 +219,7 @@ handleSearch = (event)=>
        {
          return(
            <div>
-             <TenantNavbar />
+             {localStorage.getItem("role")=="admin" ? <AdminNavbar /> : <TenantNavbar/>} 
              <div className="searchdiv">
               <select className="drop" name="searchBy" onChange={(event)=>this.handleChange(event)}>
                 <option value="village">Village</option>
@@ -225,7 +232,7 @@ handleSearch = (event)=>
                 onChange={(event)=>this.handleSearch(event)}></input>
               </div>
             </div>
-             <h1 style={{marginTop:"40px"}}>No Houses</h1>
+             <h1 style={{marginTop:"100px"}}>No Houses</h1>
            </div>
          )
        }

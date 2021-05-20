@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import { Card,Button,Image } from 'react-bootstrap';
 import { withRouter } from 'react-router';
-import profilepic from '../images/profile.png'
+import one from '../images/download.png'
 import SideNavbar from './SideNavbar';
 import TenantNavbar from './TenantNavbar';
+import '../docs/css/Profile.css'
 
 class Profile extends Component {
     constructor(props) {
@@ -24,33 +25,112 @@ class Profile extends Component {
         var d = new Date(this.state.user.dob);
         var d1 =d.getDate()+'/' +(d.getMonth () + 1) +'/'+d.getFullYear();
         return (
-            <div>
-                {localStorage.getItem("role")=="owner" ? 
+            // <div>
+            <div align='center' className="details">
+            {localStorage.getItem("role")=="owner" ? 
                 <SideNavbar/> : <TenantNavbar/> }
-            <div className="center" style={{marginLeft:"20%",marginRight:"20%", alignItems:"center",justifyContent:"center", border:"3px solid black"}}>
-                <Image src={profilepic} style={{width:"350px",height:"250px"}} alt="Loading"></Image>
-                <p><b>ID:</b>{this.state.role=="owner" ? this.state.user.ownerId : this.state.user.tenantId}</p>
-                <p><b>Name:</b>{this.state.user.name}</p>
-                <p><b>Mobile:</b>{this.state.user.mobile}</p>
-                <p><b>Dob:</b>{d1}</p>
-                <p><b>Gender:</b>{this.state.user.gender}</p>
-                <p><b>Email:</b>{this.state.user.email}</p>
-                <p><b>Aadhar:</b>{this.state.user.aadhar}</p>
-                <p><b>Hno:</b>{this.state.user.hno}</p>
-                <p><b>Village:</b>{this.state.user.village}</p>
-                <p><b>District:</b>{this.state.user.district}</p>
-                <p><b>Pin:</b>{this.state.user.pin}</p>
-                <div style={{display:'flex',justifyContent:'center'}}>
-                    <button onClick={()=>this.props.history.goBack()}>Back</button>
-                    <button onClick={() =>{
+                <div className="Promain">
+                <h1 style={{marginTop:"10px"}}>My Profile</h1>  
+                <img src={one} alt=''></img>
+            <table  className='center' cellpadding='12px'>
+               <tr>
+                    <th className='lefttext'>
+                       Id
+                   </th>
+                   <td>
+                       {this.state.role=="owner" ? this.state.user.ownerId : this.state.user.tenantId}
+                   </td>
+                   </tr>
+                  <tr>
+                       <th className='lefttext'>
+                          Name
+                     </th>
+                   <td>
+                       {this.state.user.name}
+                   </td>
+                  </tr>
+              
+               <tr>
+                   <th className='lefttext'>
+                       Mobile
+                   </th>
+                   <td>
+                       {this.state.user.mobile}
+                   </td>
+               </tr>
+               <tr>
+                   <th className='lefttext'>
+                       Email
+                   </th>
+                   <td>
+                       {this.state.user.email}
+                   </td>
+               </tr>
+               <tr>
+                   <th className='lefttext'>
+                       Aadhar
+                   </th>
+                   <td>
+                       {this.state.user.aadhar}
+                   </td>
+
+               </tr>
+                <tr>
+                    <th className='lefttext'>
+                        Gender
+                    </th>
+                    <td>
+                        {this.state.user.gender}
+                    </td>
+                </tr>
+                <tr>
+                    <th className='lefttext'>
+                        Hno
+                    </th>
+                    <td>
+                    {this.state.user.hno}
+                    </td>
+                </tr>
+                <tr>
+                    <th className='lefttext'>
+                        village
+                    </th>
+                    <td>
+                    {this.state.user.village}
+                    </td>
+                </tr>
+                <tr>
+                    <th className='lefttext'>
+                       District
+                    </th>
+                    <td>
+                    {this.state.user.district}
+                    </td>
+                </tr>
+                <tr>
+                    <th className='lefttext'>
+                       Pin
+                    </th>
+                    <td>
+                    {this.state.user.pin}
+                    </td>
+                </tr>
+                 <tr>
+                    <th >
+                       <button className='Probtn' onClick={()=>this.props.history.goBack()}> Back </button>
+                    </th>
+                    <td>
+                       <button className='Probtn' onClick={() =>{
                         localStorage.setItem("method","PATCH")
                         {localStorage.getItem("role")=="owner" ? 
                         this.props.history.push('/owner/signup') :
                         this.props.history.push('/tenant/signup')
-                    }}}>Edit</button> 
-                </div>
-            </div>
-            </div>
+                    }}}>Edit</button>
+                    </td>
+                </tr>
+           </table>
+           </div>
+        </div>
         )
     }
 }

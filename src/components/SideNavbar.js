@@ -7,7 +7,7 @@ import {CgProfile} from "react-icons/cg"
 import {GiFamilyHouse} from 'react-icons/gi'
 import {MdAddCircle} from 'react-icons/md'
 import {FcHome} from 'react-icons/fc'
-import '../docs/css/SideNavbar.css'
+import '../docs/css/Nav/SideNavbar.css'
 class SideNavbar extends React.Component {
   constructor (props) {
     super (props);
@@ -31,7 +31,7 @@ class SideNavbar extends React.Component {
                     <FaBars onClick={this.clicked}/>
                 </Link>
           </div>
-          <nav className={this.state.sidebar ? 'nav-menu active ': 'nav-menu'}>
+          <nav id="nav1" className={this.state.sidebar ? 'nav-menu active ': 'nav-menu'}>
               <ul className="nav-menu-items" onClick={this.clicked}>
                 <li className="navbar-toggle">
                     <Link to="#" className="menu-bars">

@@ -88,7 +88,7 @@ class VacantHousesOfOwner extends React.Component {
                 <div >
                 <SideNavbar/>
                 <Container className="main">
-                    <h1 style={{padding:"30px"}}>Vacant Houses List</h1>
+                    <h1 style={{paddingTop:"100px"}}>Vacant Houses List</h1>
                             { this.state.houses.map ((house,index) => { 
                                 return (
                                     <div className="housecards" id="doc">
