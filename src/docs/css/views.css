@@ -120,14 +120,6 @@ h1{
         justify-content: center;
     
     }
-    .searchdiv{
-        display:flex;
-        justify-content: right;
-        background-color: #060b26;
-        position: sticky;
-        top: 60px;
-        z-index: 0;
-    }
 }
 @media screen and (max-width:800px){
     .cards{
@@ -135,14 +127,6 @@ h1{
     }
     .main1{
         margin-left: 2%;
-    }
-    .searchdiv{
-        display:flex;
-        justify-content: right;
-        background-color: #060b26;
-        position: sticky;
-        top: 60px;
-        z-index: 0;
     }
 }
 @media screen and (max-width:750px){
@@ -164,14 +148,6 @@ h1{
     }
     .houseImage{
         width: 90%;
-    }
-    .searchdiv{
-        display:flex;
-        justify-content: right;
-        background-color: #060b26;
-        position: sticky;
-        top: 60px;
-        z-index: 0;
     }
 }
 @media screen and (max-width:600px){
@@ -197,7 +173,7 @@ h1{
         height: 40px;
         margin-top: 10px;
         margin-right: 5px;
-        margin-left: 10px;
+        margin-left: 30px;
         font-size: 12px;
     }
 }
