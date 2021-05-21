@@ -151,6 +151,14 @@ h1{
     }
 }
 @media screen and (max-width:600px){
+    .searchdiv{
+        display:flex;
+        justify-content: right;
+        background-color: #060b26;
+        position: sticky;
+        top: 60px;
+        z-index: 0;
+    }
     .search{
         width:200px;
         height: 40px;
