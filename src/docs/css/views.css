@@ -153,7 +153,7 @@ h1{
 @media screen and (max-width:600px){
     .searchdiv{
         display:flex;
-        justify-content: right;
+        justify-content: center;
         background-color: #060b26;
         position: sticky;
         top: 60px;
@@ -173,7 +173,7 @@ h1{
         height: 40px;
         margin-top: 10px;
         margin-right: 5px;
-        margin-left: 30px;
+        margin-left: 10px;
         font-size: 12px;
     }
 }
