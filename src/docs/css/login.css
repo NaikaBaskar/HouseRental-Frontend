@@ -52,7 +52,7 @@ button{
   
   
     .input {
-      border: 5px solid white; 
+      border: 4px solid white; 
       -webkit-box-shadow: 
         inset 0 0 8px  rgba(0,0,0,0.1),
               0 0 16px rgba(0,0,0,0.1); 
@@ -109,27 +109,6 @@ button{
     color: red;
   }
   
-  /* table/{ */
-  
-    /* overflow-x: auto; */
-    /* border-width:  3px;
-    border-style: solid; */
-    /* background-color:grey; */
-  /* }  */
-  
-  /* .btnExport{
-    position: fixed;
-    top:10px;
-    right:15px;
-    margin: 3;
-  } */
-  
-  /* .tablebtn
-  {
-    border-radius: 15px;
-    padding: 5px;
-    background-color: forestgreen;
-  } */
   
   .background-size-setter
   {
