@@ -152,7 +152,7 @@ h1{
 }
 @media screen and (max-width:600px){
     .search{
-        width:300px;
+        width:290px;
         height: 40px;
         margin-right: 5px;
         margin-bottom:5px;
