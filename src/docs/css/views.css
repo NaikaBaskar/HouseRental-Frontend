@@ -152,8 +152,9 @@ h1{
 }
 @media screen and (max-width:600px){
     .search{
-        width:270px;
+        width:200px;
         height: 40px;
+        margin-top: 10px;
         margin-right: 5px;
         margin-bottom:5px;
         /* border-style: groove; */
@@ -163,11 +164,11 @@ h1{
        
     }
     .drop{
-        width:100px;
+        width:80px;
         height: 40px;
+        margin-top: 10px;
         margin-right: 5px;
         margin-left: 10px;
-        /* border-style: groove; */
         display:flex;
         justify-content: right;
         font-size: 12px;
