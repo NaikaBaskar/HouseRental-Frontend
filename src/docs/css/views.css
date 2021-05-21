@@ -166,7 +166,10 @@ h1{
         width:100px;
         height: 40px;
         margin-right: 5px;
+        margin-left: 10px;
         /* border-style: groove; */
+        display:flex;
+        justify-content: right;
         font-size: 12px;
     }
 }
