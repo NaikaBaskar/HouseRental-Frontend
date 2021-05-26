@@ -9,8 +9,7 @@ import fb from '../images/facebook.png';
 import twit from '../images/twitter.png';
 import insta from '../images/instagram.png';
 import Mail from '../images/gmail.png';
-import Phone from '../images/phone.png'
-import {Nav,FormControl, Form, Navbar,Button } from 'react-bootstrap';
+import {Nav,FormControl, Form,Button } from 'react-bootstrap';
 import Header from './Header';
 import Feature from './Feature'
 import About from './About';
@@ -23,6 +22,8 @@ import Info from './Info';
 import kk from '../images/kk.jpg'
 import Contact from './Contact';
 import '../docs/css/Home.css';
+import NavBar from './NavBar'
+import CarouselContainer from './CarouselContainer';
 
 
 
@@ -41,6 +42,9 @@ class Home extends Component{
     {
         return (
             <div className="home">
+            {/* <CarouselContainer />
+            <NavBar/>
+           */}
             <Header/>
             <Feature />
             

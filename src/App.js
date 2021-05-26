@@ -27,6 +27,7 @@ import { IoCloudOffline } from "react-icons/io5"
 import AdminLogin from './components/AdminLogin';
 import ViewHousesOwned from './components/ViewHousesOwned';
 import About from './components/About';
+import OTPScreen from './components/OTPScreen';
 
 class App extends Component {
   constructor(props){
@@ -44,7 +45,7 @@ class App extends Component {
       <Online>
         <Switch>
           <Route exact path="/">
-            <Home ></Home>
+            <Home></Home>
           </Route>
            <Route exact path="/owner/login">
             <OwnerLogin ></OwnerLogin>
@@ -81,6 +82,9 @@ class App extends Component {
           </Route>
           <Route exact path="/house/add">
             <AddHouse></AddHouse>
+          </Route>
+          <Route exact path="/otpScreen">
+            <OTPScreen/>
           </Route>
           <Route exact path="/house/tenant/confirmedHouses">
             <TenantHouses/>

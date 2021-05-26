@@ -14,6 +14,7 @@ import {
   Table,
 } from 'react-bootstrap';
 import Loadingbar from './Loadingbar';
+import OTPScreen from './OTPScreen';
 
 class OwnerSignUp extends React.Component {
   constructor (props) {
@@ -89,8 +90,8 @@ handleSubmit = () =>{
       this.state.user.password.trim()==''||
       this.state.user.hno.trim()==''||
       this.state.user.village.trim()==''||
-      this.state.user.district.trim()==''
-      // this.state.user.pin.trim()==''
+      this.state.user.district.trim()=='' ||
+      this.state.user.pin==''
     ) {
       document.getElementById ('register').innerHTML =
         'Fields Cannot be Empty';
@@ -104,6 +105,11 @@ handleSubmit = () =>{
     else if(!regexMail.test(this.state.user.email))
     {
       document.getElementById('register').innerHTML="Email is invalid";
+      document.getElementById ('register').style.visibility='visible';
+    }
+    else if(this.state.method=="POST" && !regexPassword.test(this.state.user.password))
+    {
+      document.getElementById('register').innerHTML="Password Should Contain characters and digit of minimum length 8";
       document.getElementById ('register').style.visibility='visible';
     }
     // else if(!regexPassword.test(this.state.user.password))
@@ -126,48 +132,51 @@ handleSubmit = () =>{
         })
         }
        {localStorage.getItem("method")=="POST" ?
-          fetch (`https://house-rental-backend.herokuapp.com/owner/signup`, {
-                      method: 'post',
-                      headers: {
-                        'Content-Type': 'application/json',
-                      },
-                      body: JSON.stringify ({
-                        name : this.state.user.name,
-                        dob:this.state.user.dob,
-                        gender:this.state.user.gender,
-                        mobile:this.state.user.mobile,
-                        email:this.state.user.email,
-                        aadhar:this.state.user.aadhar,
-                        password:this.state.user.password,
-                        hno:this.state.user.hno,
-                        village:this.state.user.village,
-                        district:this.state.user.district,
-                        pin:this.state.user.pin
-                      }),
-                    }).then(res =>res.json())
-                      .then (res => {
-                        this.setState({
-                          add:false,
-                          update:false
-                        })
-                        if (res.code === 200) {
-                          console.log("Inserted")
-                          document.getElementById ('register').innerHTML = 'Created';
-                          alert('You are registered');
-                          this.props.history.push('/owner/login');
-                        } else if (res.code === 400) {
-                          document.getElementById ('register').innerHTML ="All Fields are Mandatory"
-                          //   'Mobile already taken';
-                          console.log("Error in inserting");
-                        }
-                      })
-                      .catch (err => {
-                        this.setState({
-                          add:false,
-                          update:false
-                        })
-                        console.log (err);
-                      })
+            this.setState({
+              add:true
+            })
+          // fetch (`https://house-rental-backend.herokuapp.com/owner/signup`, {
+          //             method: 'post',
+          //             headers: {
+          //               'Content-Type': 'application/json',
+          //             },
+          //             body: JSON.stringify ({
+          //               name : this.state.user.name,
+          //               dob:this.state.user.dob,
+          //               gender:this.state.user.gender,
+          //               mobile:this.state.user.mobile,
+          //               email:this.state.user.email,
+          //               aadhar:this.state.user.aadhar,
+          //               password:this.state.user.password,
+          //               hno:this.state.user.hno,
+          //               village:this.state.user.village,
+          //               district:this.state.user.district,
+          //               pin:this.state.user.pin
+          //             }),
+          //           }).then(res =>res.json())
+          //             .then (res => {
+          //               this.setState({
+          //                 add:false,
+          //                 update:false
+          //               })
+          //               if (res.code === 200) {
+          //                 console.log("Inserted")
+          //                 document.getElementById ('register').innerHTML = 'Created';
+          //                 alert('You are registered');
+          //                 this.props.history.push('/owner/login');
+          //               } else if (res.code === 400) {
+          //                 document.getElementById ('register').innerHTML ="All Fields are Mandatory"
+          //                 //   'Mobile already taken';
+          //                 console.log("Error in inserting");
+          //               }
+          //             })
+          //             .catch (err => {
+          //               this.setState({
+          //                 add:false,
+          //                 update:false
+          //               })
+          //               console.log (err);
+          //             })
                  :
                 fetch (`https://house-rental-backend.herokuapp.com/owner/updateOwner/${this.state.ownerId}`, {
                             method: 'PUT',
@@ -216,13 +225,14 @@ handleSubmit = () =>{
             }
         }      
     }
+
   render () {
     if(this.state.add || this.state.update)
     {
       if(this.state.add)
       {
         return(
-          <Loadingbar text="Registering..."></Loadingbar>
+          <OTPScreen user={this.state.user} mobile={this.state.user.mobile}></OTPScreen>
         )
       }
       else

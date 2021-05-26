@@ -14,6 +14,7 @@ import {
   Table,
 } from 'react-bootstrap';
 import Loadingbar from './Loadingbar';
+import OTPScreen from './OTPScreen';
 
 class OwnerSignUp extends React.Component {
   constructor (props) {
@@ -77,30 +78,30 @@ class OwnerSignUp extends React.Component {
     let regexMobile=/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
     let regexAadhar=/^[2-9]{1}[0-9]{3}[0-9]{4}[0-9]{4}$/;
     let regexPin=/^[1-9]{1}[0-9]{2}{0, 1}[0-9]{3}$/
+    localStorage.setItem("role","tenant")
     // "^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,20}$"
     if (
       this.state.user.name.trim()==''||
       this.state.user.dob.trim()==''||
       this.state.user.gender.trim()==''||
-      // this.state.user.mobile.trim()==''||
       this.state.user.email.trim()==''||
-      // this.state.user.aadhar.trim()==''||
       this.state.user.password.trim()==''||
       this.state.user.hno.trim()==''||
       this.state.user.village.trim()==''||
-      this.state.user.district.trim()==''
-      // this.state.user.pin.trim()==''
+      this.state.user.district.trim()=='' || 
+      this.state.user.pin==''
     ) {
+      alert("Fields Cannot be Empty")
       document.getElementById ('register').innerHTML =
         'Fields Cannot be Empty';
       document.getElementById ('register').style.visibility='visible';
     }
-    // if(this.state.method=="POST" && this.state.password.trim()=='')
-    // {
-    //   document.getElementById ('register').innerHTML =
-    //     'Fields Cannot be Empty';
-    //   document.getElementById ('register').style.visibility='visible';
-    // }
+    else if(this.state.method=="POST" && this.state.password.trim()=='')
+    {
+      document.getElementById ('register').innerHTML =
+        'Fields Cannot be Empty';
+      document.getElementById ('register').style.visibility='visible';
+    }
     else if(!regexMobile.test(this.state.user.mobile))
     {
       document.getElementById('register').innerHTML="Mobile number is invalid";
@@ -116,7 +117,7 @@ class OwnerSignUp extends React.Component {
       document.getElementById('register').innerHTML="Aadhar Number is Invalid";
       document.getElementById ('register').style.visibility='visible';
     }
-    else if(!regexPassword.test(this.state.user.password))
+    else if(this.state.method=="POST" && !regexPassword.test(this.state.user.password))
     {
       document.getElementById('register').innerHTML="Password Should Contain characters and digit of minimum length 8";
       document.getElementById ('register').style.visibility='visible';
@@ -130,50 +131,58 @@ class OwnerSignUp extends React.Component {
           })
           }
         document.getElementById('register').style.visibility='hidden'
-       {localStorage.getItem("method")=="POST" ?
-          fetch (`https://house-rental-backend.herokuapp.com/tenant/signup`, {
-                      method: 'post',
-                      headers: {
-                        'Content-Type': 'application/json',
-                      },
-                      body: JSON.stringify ({
-                        name : this.state.user.name,
-                        dob:this.state.user.dob,
-                        gender:this.state.user.gender,
-                        mobile:this.state.user.mobile,
-                        email:this.state.user.email,
-                        aadhar:this.state.user.aadhar,
-                        password:this.state.user.password,
-                        hno:this.state.user.hno,
-                        village:this.state.user.village,
-                        district:this.state.user.district,
-                        pin:this.state.user.pin
-                      }),
-                    }).then(res =>res.json())
-                      .then (res => {
-                        this.setState({
-                          add:false,
-                          update:false
-                        })
-                        if (res.code === 200) {
-                          console.log("Inserted")
-                          document.getElementById ('register').innerHTML = 'Created';
-                          alert('You are registered');
-                          this.props.history.push('/tenant/login');
-                        } else if (res.code === 400) {
-                          document.getElementById ('register').innerHTML ="All Fields are Mandatory"
-                          //   'Mobile already taken';
-                          console.log("Error in inserting");
-                        }
-                      })
-                      .catch (err => {
-                        this.setState({
-                          add:false,
-                          update:false
-                        })
-                        console.log (err);
-                      })
-                 :
+       {localStorage.getItem("method")=="POST" ? 
+    
+            this.setState({
+              add:true
+            })
+            // ,()=>{this.props.history.push({
+            //    pathname:`/otpScreen`, 
+            //   // state: {user: this.state.user,mobile:this.state.user.mobile}
+            // })})
+            : 
+          // fetch (`https://house-rental-backend.herokuapp.com/tenant/signup`, {
+          //             method: 'post',
+          //             headers: {
+          //               'Content-Type': 'application/json',
+          //             },
+          //             body: JSON.stringify ({
+          //               name : this.state.user.name,
+          //               dob:this.state.user.dob,
+          //               gender:this.state.user.gender,
+          //               mobile:this.state.user.mobile,
+          //               email:this.state.user.email,
+          //               aadhar:this.state.user.aadhar,
+          //               password:this.state.user.password,
+          //               hno:this.state.user.hno,
+          //               village:this.state.user.village,
+          //               district:this.state.user.district,
+          //               pin:this.state.user.pin
+          //             }),
+          //           }).then(res =>res.json())
+          //             .then (res => {
+          //               this.setState({
+          //                 add:false,
+          //                 update:false
+          //               })
+          //               if (res.code === 200) {
+          //                 console.log("Inserted")
+          //                 document.getElementById ('register').innerHTML = 'Created';
+          //                 alert('You are registered');
+          //                 this.props.history.push('/tenant/login');
+          //               } else if (res.code === 400) {
+          //                 document.getElementById ('register').innerHTML ="All Fields are Mandatory"
+          //                 //   'Mobile already taken';
+          //                 console.log("Error in inserting");
+          //               }
+          //             })
+          //             .catch (err => {
+          //               this.setState({
+          //                 add:false,
+          //                 update:false
+          //               })
+          //               console.log (err);
+          //             })
                 fetch (`https://house-rental-backend.herokuapp.com/tenant/updateTenant/${this.state.tenantId}`, {
                             method: 'PUT',
                             headers: {
@@ -227,7 +236,7 @@ class OwnerSignUp extends React.Component {
       if(this.state.add)
       {
         return(
-          <Loadingbar text="Registering..."></Loadingbar>
+          <OTPScreen user={this.state.user} mobile={this.state.user.mobile}></OTPScreen>
         )
       }
       else

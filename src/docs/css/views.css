@@ -1,5 +1,9 @@
 body{
     margin: auto;
+    /* background-image: url('../../images/k1.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    scroll-margin:inherit; */
 }
 .cards{
     display: inline-block;

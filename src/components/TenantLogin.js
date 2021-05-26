@@ -24,7 +24,10 @@ class TenantLogin extends React.Component {
       loading:false,
       forgot:false,
       otp:false,
+      time:'',
+      seconds:10
     };
+    this.timer=0
 
     this.handleChange = this.handleChange.bind (this);
     this.handleSubmit=this.handleSubmit.bind(this)
@@ -125,22 +128,208 @@ class TenantLogin extends React.Component {
             alert("Mobile or Password is incorrect")
           });
       }
-    
-  
   }
-  sendOTP = () =>{
+  resendOTP = () => {
+    console.log("Reset Timer in ten");
+    clearInterval(this.timer)
+    this.timer=0;
     this.setState({
       otp:true,
       login:false,
-      forgot:false
-    })
+      forgot:false,
+      seconds:10
+    },()=> {
+      console.log(this.state.seconds)
+      document.getElementById("resendbtn").style.display="none"
+      document.getElementById("text").style.display="unset"
+      this.sendOTP()
+    });
+    // console.log(this.state.seconds)
+    
   }
+  sendOTP = () => {
+    let regexMobile=/^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+      if (this.state.mobile == '' || this.state.password.trim()=='' || this.state.cnfrm.trim()=='') {
+        alert("Fields cannot be Empty")
+        // document.getElementById ('login').innerHTML = 'Fields Cannot be Empty.';
+      } 
+      else if(!regexMobile.test(this.state.mobile))
+      {
+        alert("Please Enter valid mobile")
+        // document.getElementById('login').innerHTML='Please Enter Valid Mobile'
+        // document.getElementById ('login').style.visibility='visible';
+      }
+      else if(this.state.password!==this.state.cnfrm)
+      {
+        alert("Passwords must be same")
+      }
+      else {
+        // document.getElementById ('login').style.visibility='hidden';
+        fetch (`https://house-rental-backend.herokuapp.com/tenant/getTenantByMobile/${this.state.mobile}`, {
+          method: 'GET',
+          // params:{
+          //   mobile:this.state.mobile
+          // }
+        })
+          .then (res => res.json ())
+          .then (res => {
+            if(res.data===null)
+            {
+                alert("Invalid mobile")
+            }
+            else 
+            {
+              this.timer=0
+              this.setState({
+                otp:true,
+                login:false,
+                forgot:false,
+                seconds:10
+              },() => {this.startTimer()})
+              console.log("phn verify"+this.state.mobile);
+              
+              var newPhn="+91"+this.state.mobile
+              console.log("send newphn "+newPhn);
+            
+              fetch('https://house-rental-backend.herokuapp.com/otp/sendCode', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: JSON.stringify ({ 
+                    mobile:newPhn,
+                    
+                  }),
+                })
+                .then(res =>res.json())
+                  .then (res => {
+                      console.log("signup result "+JSON.stringify(res));
+                    if (res.msg === "sent") {
+                      alert("OTP has been sent to Your number")
+                    } else  {
+                     alert("Error in sending OTP");
+                    }
+                  })
+                  .catch (err => {
+                    alert("Error in sending OTP");
+                    console.log (err);
+                  })
+            }
+            
+          })
+          .catch (error => console.log ('error', error));
+   
+     }
+  }
+  
+  secondsToTime = (secs) =>{
+    let hours = Math.floor(secs / (60*60));
+    let divisor_for_min = secs % (60*60);
+    let minutes = Math.floor(divisor_for_min/60);
+    let divisor_for_sec = divisor_for_min % 60;
+    let seconds = Math.ceil(divisor_for_sec);
+    let obj = {
+        'h' : hours,
+        'm' : minutes,
+        's' : seconds
+    };
+    return obj;
+  }
+  
+  startTimer = ()=>{
+    console.log("Timer");
+    console.log(this.timer) 
+    console.log(this.state.seconds)
+    // document.getElementById("text").style.display="none"
+    if(this.timer==0 && this.state.seconds>0){
+      console.log("Timer1");
+        this.timer = setInterval(this.countDown,1000);
+    }
+  }
+  
+  countDown = ()=>{
+    const seconds = this.state.seconds-1;
+    this.setState({
+        time : this.secondsToTime(seconds),
+        seconds : seconds
+    });
+  
+    if(seconds == 0){
+        document.getElementById("text").style.display="none"
+        document.getElementById("resendbtn").style.display="unset"
+        clearInterval(this.timer);
+        alert("time is up");
+        // this.submitTest();
+    }
+  }
+  
+  // clearInterval(this.timer);
+  
   verify = () => {
     this.setState({
       otp:false,
       login:true,
       forgot:false
     })
+     var newPhn="+91"+this.state.mobile
+     console.log("verify newphn "+newPhn);
+    fetch('https://house-rental-backend.herokuapp.com/otp/verifyCode', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+        },
+      // body: data
+        body: JSON.stringify ({
+          mobile:newPhn,
+          code:this.state.pin,
+          
+        }),
+      })
+      .then(res =>res.json())
+        .then (res => {
+            console.log("verify result "+JSON.stringify(res));
+          if (res.msg === "approved") {
+            alert("OTP has been verified")
+            console.log("verified");
+            fetch('https://house-rental-backend.herokuapp.com/tenant/changePassword', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+              },
+            body: JSON.stringify ({
+              mobile:this.state.mobile,
+              password:this.state.password
+              
+            }),
+          })
+          .then(res =>res.json())
+            .then (res => {
+              if (res.code === 200) {
+                alert("Password Updated Succesfully")
+                
+              } else  {
+                alert("Error in Updating Password");
+              }
+            })
+            .catch (err => {
+              console.log (err);
+            })
+
+          } else  {
+            alert("Error in verifying");
+          }
+        })
+        .catch (err => {
+          console.log (err);
+        })
+  }
+  goback = () =>{
+    this.setState({
+      otp:false,
+      login:false,
+      forgot:true
+  })
+  
   }
   render () {
     if(this.state.loading)
@@ -154,9 +343,9 @@ class TenantLogin extends React.Component {
       return(
           <div id="backdesign">
           <div className="form col-xl-5 col-lg-6 col-md-7 col-sm-8 col-10  bg-white">
-          <h1 className="m-3" style={{marginTop:"20px",marginBottom:"25px"}}>Tenant Login</h1>
+          <h1 className="m-3" style={{marginTop:"20px",marginBottom:"25px"}}>OTP Validation</h1>
             <div>
-              <FormGroup className="form-inline ">
+              <FormGroup className="form-inline " style={{margin:"20px"}}>
                 <FormLabel>OTP</FormLabel>
                 <FormControl
                   type="number"
@@ -169,15 +358,10 @@ class TenantLogin extends React.Component {
                   className="input col-xl-8 "
                 />
                 </FormGroup>
-                <button className="mb-2 btn btn-success mr-5" onClick={() =>{
-              }}>ResendOTP</button> 
-                <button className="mb-2 btn btn-success ml-2" onClick={()=>{
-                  this.setState({
-                    otp:false,
-                    forgot:false,
-                    login:false
-                  })
-                  }}>Verify OTP</button>
+                <div id="text" ><p>OTP Will Expire in  <b>{this.state.time.m} : {this.state.time.s} </b></p></div>
+                <button className="btn btn-success " id="resendbtn" onClick={this.resendOTP} style={{display:"none",marginTop:"25px",marginBottom:"25px"}}>Resend</button> 
+                <button className="btn btn-success" onClick={this.goback} style={{marginTop:"25px",marginBottom:"25px"}}>Back</button> 
+                <button className="btn btn-success" onClick={this.verify} style={{marginTop:"25px",marginBottom:"25px"}}>Verify</button>
               </div>
                 </div>
               </div> 
@@ -189,7 +373,7 @@ class TenantLogin extends React.Component {
       <div id="backdesign">
       <div className="form col-xl-5 col-lg-6 col-md-7 col-sm-8 col-10  bg-white">
         {/* col-xl-5 col-lg-6 col-md-7 col-sm-8 col-10 */}
-      <h1 className="m-3" style={{marginTop:"20px",marginBottom:"25px"}}>Tenant Login</h1>
+      <h1 className="m-3" style={{marginTop:"20px",marginBottom:"25px"}}>{this.state.forgot ? "Update Password" : "Tenant Login"}</h1>
         <div>
           <FormGroup className="form-inline ">
             <FormLabel>Mobile</FormLabel>

@@ -14,6 +14,10 @@ button{
     border-radius:40px;
   
 }
+body{
+  /* background-image: url('../../images/background.png'); */
+}
+
 /* body{
   margin: 5px;
   padding: 5px;

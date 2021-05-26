@@ -638,10 +638,32 @@
              .menu-btn:checked ~ .menu{
                 display:block;
             }}
-            @media(max-width:400px){
+            /* @media(max-width:400px){
                 .s-box{
                     width: 100%;
                     height:400px;
                 }
             }
+            .tabs:hover{
+              text-decoration:none;
+            } */
+            
+                        @media(max-width:400px){
+                          .about-text{
+                            padding-top:50px;
+                            padding-bottom:150px;
+                          }
+                          .about-text .three{
+                            padding-top:250px;
+                          }
+                          /*.about-text .heading{
+                            padding-top:50px;
+                          }*/
+                          .about-text .about3-btn{
+                            padding-bottom: 200px;
+                          }
+                          .extra{
+                            display: none;
+                          }
+                        }
       
