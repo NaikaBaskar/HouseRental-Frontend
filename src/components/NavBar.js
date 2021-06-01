@@ -1,5 +1,7 @@
 import React, {useState} from 'react'
 import logo from '../images/i.png'
+import '../docs/css/Home.css';
+import {RiAdminFill } from 'react-icons/ri'
 
 
 function Navbar() {
@@ -28,10 +30,11 @@ function Navbar() {
             </label>
             <ul className="menu">
                 <li><a href="" className="tabs">Home</a></li>
-                <li><a href="#" className="tabs">IDEA</a></li>
+                {/* <li><a href="#" className="tabs">IDEA</a></li> */}
                 <li><a href="#" className="tabs">How Does it Work?</a></li>                
                 <li><a href="#" className="tabs">About Us</a></li>
                 <li><a href="#" className="tabs">Contact</a></li>
+                <li><a href="#admin/login"  className="tabs"><i class="fas fa-user-lock"></i>Admin</a></li>
             </ul>
         </nav>
     )

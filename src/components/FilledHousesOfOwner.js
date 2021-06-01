@@ -37,7 +37,12 @@ class ViewHouses extends React.Component {
           vacate:false
         });
       })
-      .catch (error => console.log ('error', error));
+      .catch (error => {
+        this.setState ({
+          loading:false,
+          vacate:false
+        });
+        console.log ('error', error)});
   };
   cancel = (hid) => {
     this.setState({
@@ -101,6 +106,7 @@ class ViewHouses extends React.Component {
                                 <p><b>Village:</b>{house.village}</p>
                                 <p><b>District:</b>{house.district}</p>
                                 <p><b>Pin:</b>{house.pin}</p>
+                                <p><b>Document:</b><a href={"data:application/pdf;base64,"+house.houseDocument} download="file.pdf">Download</a></p>
                                 <div style={{display:'flex',justifyContent:'center'}}>
                                 <button onClick = {() => {
                                   if(window.confirm('Are you sure You want to Vacate Tenant?'))

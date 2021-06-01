@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Card,Button,Image } from 'react-bootstrap';
 import { withRouter } from 'react-router';
-import profilepic from '../images/profile.png'
 import AdminNavbar from './AdminNavbar';
 import Loadingbar from './Loadingbar';
 import SideNavbar from './SideNavbar';

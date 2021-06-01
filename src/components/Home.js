@@ -1,29 +1,20 @@
 import {Component} from 'react'
 import {Link, withRouter} from 'react-router-dom'
-import Logo2 from '../images/logo2.png'
-import Logo from '../images/5.ico';
-import one from '../images/1.png';
-import two from '../images/2.png';
-import three from '../images/3.png';
-import fb from '../images/facebook.png';
-import twit from '../images/twitter.png';
-import insta from '../images/instagram.png';
-import Mail from '../images/gmail.png';
 import {Nav,FormControl, Form,Button } from 'react-bootstrap';
 import Header from './Header';
 import Feature from './Feature'
 import About from './About';
 import About2 from './About2';
 import About3 from './About3';
-import aboutimage from '../images/t1.jpg'
-import aboutimage1 from '../images/a.PNG'
-import aboutimage2 from '../images/0.jpg'
+import aboutimage from '../images/pp3.png'
+import aboutimage1 from '../images/pp2.png'
+import aboutimage2 from '../images/pp11.png'
 import Info from './Info';
 import kk from '../images/kk.jpg'
 import Contact from './Contact';
 import '../docs/css/Home.css';
 import NavBar from './NavBar'
-import CarouselContainer from './CarouselContainer';
+// import CarouselContainer from './CarouselContainer';
 
 
 

@@ -39,7 +39,12 @@ class ViewOwners extends Component {
               delete:false
             });
           })
-          .catch (error => console.log ('error', error));
+          .catch (error => {
+            this.setState ({
+              loading:false,
+              delete:false
+            });
+            console.log ('error', error)});
       };
       deleteTenant = (id) =>{
         this.setState({

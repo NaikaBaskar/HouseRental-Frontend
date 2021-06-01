@@ -41,3 +41,22 @@
     display: flex;
     justify-content: center;
 } */
+
+
+@media screen and (max-width:1200px){
+    .Promain{
+        width:95%;
+    }
+   tr,th{
+       font-size: 12px;
+   }
+   .center{
+       width:90%;
+   }
+}
+
+@media screen and (max-width:500px){
+   tr,th{
+       font-size: 11px;
+   }
+}

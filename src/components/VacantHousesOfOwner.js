@@ -103,6 +103,7 @@ class VacantHousesOfOwner extends React.Component {
                                     <p><b>Village:</b>{house.village}</p>
                                     <p><b>District:</b>{house.district}</p>
                                     <p><b>Pin:</b>{house.pin}</p>
+                                    <p><b>Document:</b><a href={"data:application/pdf;base64,"+house.houseDocument} download="file.pdf">Download</a></p>
                                     <div style={{display:'flex',justifyContent:'center'}}>
                                     <button onClick={() => {
                                   localStorage.setItem("method1","PATCH")
@@ -135,7 +136,7 @@ class VacantHousesOfOwner extends React.Component {
                 return (
                     <div>
                         <SideNavbar/>
-                        <h1 style={{padding:"30px"}}>No Vacant Houses</h1>
+                        <h1 style={{paddingTop:"100px"}}>No Vacant Houses</h1>
                     </div>
                 )
             }

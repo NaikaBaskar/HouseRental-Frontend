@@ -14,11 +14,14 @@ import {
   Table,
 } from 'react-bootstrap';
 import SideNavbar from './SideNavbar';
+import Loadingbar from './Loadingbar';
 
 class AddHouse extends React.Component {
   constructor (props) {
     super (props);
     this.state = {
+     add:false,
+     update:false, 
      house:
      {
         cost: '',         
@@ -89,6 +92,14 @@ handleSubmit = (event) =>{
       document.getElementById ('register').style.visibility='visible';
     }
     else {
+      {localStorage.getItem("method1")=="POST" ?
+      this.setState({
+        add:true
+      }) :
+      this.setState({
+        update:true
+      })
+    }
       document.getElementById('register').style.visibility='hidden';
       console.log("Adding")
       const data=new FormData()
@@ -108,6 +119,10 @@ handleSubmit = (event) =>{
                   method: 'POST',
                   body:data
                 }).then (res => {
+                    this.setState({
+                      add:false,
+                      update:false
+                    })
                     if (res.ok) {
                       console.log("Inserted")
                       document.getElementById ('register').innerHTML = 'Created';
@@ -121,6 +136,10 @@ handleSubmit = (event) =>{
                     }
                   })
                   .catch (err => {
+                    this.setState({
+                      add:false,
+                      update:false
+                    })
                     console.log (err);
                   }) :
 
@@ -128,6 +147,10 @@ handleSubmit = (event) =>{
                     method: 'PUT',
                     body:data
                   }).then (res => {
+                    this.setState({
+                      add:false,
+                      update:false
+                    })
                       if (res.ok) {
                         console.log("Updated")
                         document.getElementById ('register').innerHTML = 'Updated';
@@ -141,6 +164,10 @@ handleSubmit = (event) =>{
                       }
                     })
                     .catch (err => {
+                      this.setState({
+                        add:false,
+                        update:false
+                      })
                       console.log (err);
                     })
 
@@ -149,6 +176,23 @@ handleSubmit = (event) =>{
     }
 
   render () {
+  if(this.state.add || this.state.update)
+  {
+       if(this.state.add)
+       {
+          return(
+            <Loadingbar  text="Adding House please wait.."/>
+          )
+       }
+       else
+       {
+        return(
+          <Loadingbar  text="Updating House please wait.."/>
+        )
+       }
+  }
+  else
+  {
     return (
       <div id="backdesign">
         <SideNavbar />
@@ -322,6 +366,7 @@ handleSubmit = (event) =>{
       </div>
       </div>
     );
+  }
   }
 }
 

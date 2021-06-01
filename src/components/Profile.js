@@ -32,7 +32,7 @@ class Profile extends Component {
                 <div className="Promain">
                 <h1 style={{marginTop:"10px"}}>My Profile</h1>  
                 <img src={one} alt=''></img>
-            <table  className='center' cellpadding='12px' style={{width:"50%"}}>
+            <table  className='center' cellpadding='12px' >
                <tr>
                     <th className='lefttext'>
                        Id

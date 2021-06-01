@@ -100,6 +100,7 @@
       }
       .name span{
         color: #1d4c5f;
+        /* color: #1d4c5f; */
        
       }
       .name .details{
@@ -124,12 +125,14 @@
       height: 40px;
       display: flex;
       justify-content: center;
+      text-align: center;
         align-items: center;
         background-color: #023144;
         box-shadow: 5px 10px 30px rgba(2, 238, 255, 0.336);
         border-radius: 10px;
         padding: 25px;
         margin: 25px;
+        margin-left: 30%;
         border-radius: 20px;
       color:#ffffff;
       }
@@ -432,7 +435,13 @@
         background-color: #6c5cf5;
         transition: all ease 0.3s;
       }
-      
+      @media only screen and (max-width: 1200px) and (min-width: 950px){
+        .name span{
+          /* color: #1d4c5f; */
+          color:black;
+        }
+       
+      }
       @media(max-width: 1190px){
         #main{
           background-size: 1150px;
@@ -550,7 +559,12 @@
       @media(max-width:600px){
       .name{
         width:60%;
-        }}
+        }
+        .cv-btn{
+          margin-left: 15%;
+          margin-top: 20px;
+      }
+      }
         .scroll{
             left: 42.5%;
         }

@@ -114,6 +114,7 @@ class ViewHouses extends React.Component {
                                 <p><b>Village:</b>{house.village}</p>
                                 <p><b>District:</b>{house.district}</p>
                                 <p><b>Pin:</b>{house.pin}</p>
+                                <p><b>Document:</b><a href={"data:application/pdf;base64,"+house.houseDocument} download="file.pdf">Download</a></p>
                                 <div style={{display:'flex',justifyContent:'center'}}>
                                 <button onClick={() => {
                                   localStorage.setItem("method1","PATCH")

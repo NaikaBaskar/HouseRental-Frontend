@@ -70,6 +70,10 @@ class ViewHouses extends React.Component {
       }),
     }).then(res =>res.json())
       .then (res => {
+        this.setState ({
+          loading:false,
+          request:false
+        });
         if (res.code === 200) {
           console.log("Request Sent..")
           // document.getElementById ('register').innerHTML = 'Created';
@@ -77,18 +81,21 @@ class ViewHouses extends React.Component {
           this.fetchAllHouses()
           // this.props.history.push("#")
         } else if (res.code === 400) {
-          this.setState({
-            request:true
-          })
+          this.setState ({
+            loading:false,
+            request:false
+          });
+          alert("Error in sending request")
           document.getElementById ('register').innerHTML ="All Fields are Mandatory"
           //   'Mobile already taken';
           console.log("Error in Sending Request");
         }
       })
       .catch (err => {
-        this.setState({
-          request:true
-        })
+        this.setState ({
+          loading:false,
+          request:false
+        });
         console.log (err);
       })
   }

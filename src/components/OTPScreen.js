@@ -22,7 +22,7 @@ class OTPScreen extends React.Component {
       user:[],
       loading:false,
       time:'',
-      seconds:10,
+      seconds:180,
     };
     this.timer=0
     this.handleChange = this.handleChange.bind (this);
@@ -44,15 +44,12 @@ class OTPScreen extends React.Component {
       [name]: value,
     });
   }
-handleSubmit = () =>{
-  
 
-}
 resendOTP = () => {
   clearInterval(this.timer)
   this.timer=0;
   this.setState({
-    seconds:10
+    seconds:180
   },()=> {
     console.log(this.state.seconds)
     document.getElementById("resendbtn").style.display="none"
@@ -65,7 +62,7 @@ resendOTP = () => {
 sendOTP = () => {
             this.timer=0
             this.setState({
-              seconds:10
+              seconds:180
             },() => {this.startTimer()})
             console.log("phn verify"+this.state.mobile);
             
@@ -222,6 +219,9 @@ verify = () => {
         }
       })
       .catch (err => {
+        this.setState({
+          loading:false,
+        })
         console.log (err);
       })
 }

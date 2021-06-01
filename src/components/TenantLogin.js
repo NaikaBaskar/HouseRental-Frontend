@@ -25,7 +25,7 @@ class TenantLogin extends React.Component {
       forgot:false,
       otp:false,
       time:'',
-      seconds:10
+      seconds:180
     };
     this.timer=0
 
@@ -137,7 +137,7 @@ class TenantLogin extends React.Component {
       otp:true,
       login:false,
       forgot:false,
-      seconds:10
+      seconds:180
     },()=> {
       console.log(this.state.seconds)
       document.getElementById("resendbtn").style.display="none"
@@ -184,7 +184,7 @@ class TenantLogin extends React.Component {
                 otp:true,
                 login:false,
                 forgot:false,
-                seconds:10
+                seconds:180
               },() => {this.startTimer()})
               console.log("phn verify"+this.state.mobile);
               
